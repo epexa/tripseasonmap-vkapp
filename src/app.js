@@ -3,7 +3,7 @@ const socketShowError = (errorMessage = null) => {
 };
 
 // const socket = io.connect('ws://127.0.0.1:8888', {
-const socket = io.connect('wss://tripseasonmap.com', {
+const socket = io.connect('wss://api.tripseasonmap.com', {
 	reconnection: true,
 	reconnectionDelay: 10000,
 	timeout: 300000,
@@ -47,18 +47,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	if ( ! localStorage.welcome) {
 		localStorage.welcome = 1;
-		Swal.fire({
-			showCloseButton: true,
-			html: $welcome.innerHTML,
-			confirmButtonText: 'Отлично! Давайте начнём!',
+		SwalWelcome = Swal.mixin({
 			width: '50%',
 			imageUrl: 'graphics/logo.svg',
 			customClass: {
-				image: 'w-25',
+				image: 'w-50',
 				confirmButton: 'btn btn-success btn-lg',
 			},
+			showClass: {
+				popup: 'animate__animated animate__fadeIn', // animate__zoomIn
+			},
+			grow: 'fullscreen',
+			backdrop: '#fff',
+		});
+		SwalWelcome.fire({
+			html: $welcome.innerHTML,
+			confirmButtonText: 'Отлично!',
 		}).then(result => {
-			show($quizPage);
+			SwalWelcome.fire({
+				html: '<h1>Ответьте на <b>три</b> вопроса и сформируйте свой персональный список мест для путешествия!</h1>',
+				confirmButtonText: 'Давайте начнём!',
+			}).then(result => {
+				show($quizPage);
+			});
 		});
 	}
 	else show($quizPage);

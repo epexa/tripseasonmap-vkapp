@@ -19,8 +19,8 @@
 ## This project uses JavaScript libraries
 | Name | GitHub | jsDelivr | Version |
 |------|--------|----------|---------|
-| Bootswatch | [GitHub](https://github.com/thomaspark/bootswatch) | [jsDelivr](https://www.jsdelivr.com/package/npm/bootswatch?path=dist%2Flitera) | 4.4.1 |
-| SweetAlert2 | [GitHub](https://github.com/sweetalert2/sweetalert2) | [jsDelivr](https://www.jsdelivr.com/package/npm/sweetalert2?path=dist) | 9.7.2
+| Bootswatch | [GitHub](https://github.com/thomaspark/bootswatch) | [jsDelivr](https://www.jsdelivr.com/package/npm/bootswatch?path=dist%2Fflatly) | 4.5.0 |
+| SweetAlert2 | [GitHub](https://github.com/sweetalert2/sweetalert2) | [jsDelivr](https://www.jsdelivr.com/package/npm/sweetalert2?path=dist) | 9.15.3
 | socket.io client | [GitHub](https://github.com/socketio/socket.io-client) | [jsDelivr](https://www.jsdelivr.com/package/npm/socket.io-client?path=dist) | 2.3.0
 | Animate.css | [GitHub](https://github.com/daneden/animate.css) | [jsDelivr](https://www.jsdelivr.com/package/npm/animate.css) | 4.1.0
 

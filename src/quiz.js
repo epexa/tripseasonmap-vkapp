@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		'#stack-cards-area',
 		'#favorites-btn',
 		'#quiz-list-btn',
+		'#no-places-results',
+		'#no-favorites-results',
 	);
-
-	const userId = 1;
 
 	/* const stack = swing.Stack({
 		allowedDirections: [ swing.Direction.LEFT, swing.Direction.RIGHT ],
@@ -96,20 +96,30 @@ document.addEventListener('DOMContentLoaded', () => {
 	$favoritesBtn.addEventListener('click', () => {
 		hide($favoritesBtn);
 		show($quizListBtn);
+		$placesCards.innerHTML = '';
 		getItems('favorites.get', response => {
 			// console.log(response);
-			renderQuizList(response);
+			if (response) {
+				hide($noFavoritesResults);
+				renderQuizList(response);
+			}
+			else show($noFavoritesResults);
 		}, {
-			user_id: userId,
+			url: window.location.href,
 		});
 	});
 
 	$quizListBtn.addEventListener('click', () => {
 		hide($quizListBtn);
 		show($favoritesBtn);
+		$placesCards.innerHTML = '';
 		getItems('places.get', response => {
 			// console.log(response);
-			renderQuizList(response);
+			if (response) {
+				hide($noPlacesResults);
+				renderQuizList(response);
+			}
+			else show($noPlacesResults);
 		}, {
 			month: monthValue,
 			question2: question2,
@@ -144,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 	const renderQuizList = response => {
-		$placesCards.innerHTML = '';
 		for (const place of response) {
 			const $newPlaceCard = $placeCardTemplate.cloneNode(true);
 			$newPlaceCard.removeAttribute('id');
@@ -161,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			$placeLike.addEventListener('click', e => {
 				const placeId = $placeLike.closest('.card').dataset.id;
 				if ( ! $placeLike.classList.contains('liked')) {
-					console.log('add favorites', placeId);
+					// console.log('add favorites', placeId);
 					$placeLike.classList.add('animate__heartBeat');
 					$placeLike.classList.add('liked');
 					const handleAnimationEnd = () => {
@@ -173,13 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
 					$placeLike.addEventListener('animationend', handleAnimationEnd);
 					socket.emit('favorites.set', {
 						place_id: placeId,
-						user_id: userId,
+						url: window.location.href,
 					}, response => {
-						console.log(response);
+						// console.log(response);
 					});
 				}
 				else {
-					console.log('remove favorites', placeId);
+					// console.log('remove favorites', placeId);
 					$placeLike.classList.remove('liked');
 					$placeLike.classList.add('animate__flip');
 					const handleAnimationEnd = () => {
@@ -191,9 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
 					$placeLike.addEventListener('animationend', handleAnimationEnd);
 					socket.emit('favorites.remove', {
 						place_id: placeId,
-						user_id: userId,
+						url: window.location.href,
 					}, response => {
-						console.log(response);
+						// console.log(response);
 					});
 				}
 			});
