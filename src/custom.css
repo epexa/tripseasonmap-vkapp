@@ -243,6 +243,7 @@ label {
 
 .btn-circle i {
   font-size: 1.25rem;
+  line-height: 2.5rem;
 }
 
 .btn-circle-sm {
@@ -260,6 +261,7 @@ label {
 }
 .btn-circle-lg i {
   font-size: 1.5rem;
+  line-height: 3.25rem;
 }
 
 .btn-circle-xl {
@@ -307,7 +309,7 @@ label {
 
 #cards-area .card img {
   object-fit: cover;
-  max-height: 400px;
+  max-height: 450px;
 }
 
 

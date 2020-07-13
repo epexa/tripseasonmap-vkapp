@@ -25,8 +25,8 @@ server.listen(serverParams.port, serverParams.address, () => {
 app.use(express.static(`${__dirname}/public/`));
 app.use(express.static(__dirname + workDir));
 
-const templateJs = file => { return `<script defer src="${file}"></script>`; };
-const templateCss = file => { return `<link rel="stylesheet" href="${file}">`; };
+const templateJs = (file) => { return `<script defer src="${file}"></script>`; };
+const templateCss = (file) => { return `<link rel="stylesheet" href="${file}">`; };
 
 let pathJsFiles = ``;
 let pathCssFiles = ``;
@@ -55,7 +55,7 @@ const generatePathFiles = async (filePath = '') => {
 app.get('/', (req, res) => {
 	let outputStr = '';
 	outputStr += pathCssFiles;
-	htmlFiles.forEach(htmlFile => {
+	htmlFiles.forEach((htmlFile) => {
 		outputStr += fs.readFileSync(`${__dirname + workDir + htmlFile}.html`);
 	});
 	outputStr += pathJsFiles;

@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	let monthValue;
 
-	$question1.querySelectorAll('.quiz-month').forEach($month => {
-		$month.addEventListener('click', e => {
+	$question1.querySelectorAll('.quiz-month').forEach(($month) => {
+		$month.addEventListener('click', (e) => {
 			e.preventDefault();
 			monthValue = $month.dataset.id;
 			$question1.classList.add('animate__fadeOut');
@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	let question2;
 	let question3;
 
-	document.querySelectorAll('#questions .card').forEach($card => {
-		$card.addEventListener('click', e => {
+	document.querySelectorAll('#questions .card').forEach(($card) => {
+		$card.addEventListener('click', (e) => {
 			e.preventDefault();
 			const answerId = parseInt($card.dataset.id);
 			if (answerId === 1 || answerId === 2) {
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				if (answerId === 3 || answerId === 5) question3 = 1; else question3 = 2;
 
-				getItems('places.get', response => {
+				getItems('places.get', (response) => {
 					// console.log(response);
 					renderQuizList(response);
 				}, {
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		hide($favoritesBtn);
 		show($quizListBtn);
 		$placesCards.innerHTML = '';
-		getItems('favorites.get', response => {
+		getItems('favorites.get', (response) => {
 			// console.log(response);
 			if (response) {
 				hide($noFavoritesResults);
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		hide($quizListBtn);
 		show($favoritesBtn);
 		$placesCards.innerHTML = '';
-		getItems('places.get', response => {
+		getItems('places.get', (response) => {
 			// console.log(response);
 			if (response) {
 				hide($noPlacesResults);
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			},
 			showCloseButton: true,
 			showLoaderOnConfirm: true,
-		}).then(result => {
+		}).then((result) => {
 			if (result.value) {
 				monthValue = null;
 				$question1.classList.remove('animate__fadeOut');
@@ -153,12 +153,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
-	const renderQuizList = response => {
+	const renderQuizList = (response) => {
 		for (const place of response) {
 			const $newPlaceCard = $placeCardTemplate.cloneNode(true);
 			$newPlaceCard.removeAttribute('id');
 			$newPlaceCard.dataset.id = place.id;
-			$newPlaceCard.querySelector('.card-img-top').src = `places/${place.id}/1.webp`;
+			$newPlaceCard.querySelector('source').srcset = `places/${place.id}/1.webp`;
+			$newPlaceCard.querySelector('img').src = `places/${place.id}/1.jpg`;
 			$newPlaceCard.querySelector('.country').innerText = place.country;
 			$newPlaceCard.querySelector('.place').innerText = place.name;
 			$newPlaceCard.querySelector('.description').innerText = place.description;
@@ -167,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (place.season === 1) classList = 'success'; else classList = 'warning';
 			$newPlaceCard.querySelector('.season').classList.add(`text-${classList}`);
 			const $placeLike = $newPlaceCard.querySelector('.place-like');
-			$placeLike.addEventListener('click', e => {
+			$placeLike.addEventListener('click', (e) => {
 				const placeId = $placeLike.closest('.card').dataset.id;
 				if ( ! $placeLike.classList.contains('liked')) {
 					// console.log('add favorites', placeId);
@@ -183,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					socket.emit('favorites.set', {
 						place_id: placeId,
 						url: window.location.href,
-					}, response => {
+					}, (response) => {
 						// console.log(response);
 					});
 				}
@@ -201,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					socket.emit('favorites.remove', {
 						place_id: placeId,
 						url: window.location.href,
-					}, response => {
+					}, (response) => {
 						// console.log(response);
 					});
 				}
@@ -240,10 +241,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				let totalHeight = 0;
 				for (let i = 0; i < $childrens.length; i++)
 					totalHeight += $childrens[i].offsetHeight;
-				$newPlaceCard.querySelector('.card-img-top').style.maxHeight = totalHeight - 25;
+				$newPlaceCard.querySelector('.card-img-top').style.maxHeight = `${totalHeight - 25}px`;
 			}, 1000);
 			/* end fix max-height */
-
 			/* const $newStackPlaceCard = $stackPlaceCardTemplate.cloneNode(true);
 			$newStackPlaceCard.removeAttribute('id');
 			$newStackPlaceCard.querySelector('.card-img-top').src = `places/${place.id}/1.webp`;

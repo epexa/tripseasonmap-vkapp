@@ -4,7 +4,7 @@ Swal = Swal.mixin({
 	cancelButtonText: 'Нет',
 });
 
-const camelCase = str => {
+const camelCase = (str) => {
 	str = str.replace(/[=\[\]"]/g, ' ').replace(/  +/g, ' ').replace(/[#\.]/g, '');
 	str = str.replace(/-([a-z])/g, (_m, l) => {
 		return l.toUpperCase();
@@ -17,20 +17,20 @@ const camelCase = str => {
 const initHtmlElements = (...agrs) => {
 	/* document.addEventListener('DOMContentLoaded', () => {
 	}); */
-	agrs.forEach($htmlElement => {
+	agrs.forEach(($htmlElement) => {
 		const nameConst = camelCase($htmlElement);
 		window[`$${nameConst}`] = document.querySelector($htmlElement);
 	});
 };
 
 const hide = (...agrs) => {
-	agrs.forEach(el => {
+	agrs.forEach((el) => {
 		el.classList.add('d-none');
 	});
 };
 
 const show = (...agrs) => {
-	agrs.forEach(el => {
+	agrs.forEach((el) => {
 		el.classList.remove('d-none');
 	});
 };
@@ -45,7 +45,7 @@ const loadingHide = () => {
 
 const getItems = (method, callback, data = {}) => {
 	loadingShow();
-	socket.emit(method, data, response => {
+	socket.emit(method, data, (response) => {
 		loadingHide();
 		console.log(response);
 		callback(response.items);

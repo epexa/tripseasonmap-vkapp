@@ -7,7 +7,6 @@
     "no-unused-vars": 0,
     "no-tabs": 0,
     "one-var": 0,
-    "arrow-parens": ["error", "as-needed"],
     "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
     "max-len": 0,
     "no-multiple-empty-lines": ["error", { "max": 1, "maxBOF": 1 }],

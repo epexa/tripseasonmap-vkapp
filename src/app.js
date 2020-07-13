@@ -20,7 +20,7 @@ socket.on('connect_timeout', () => {
 socket.on('reconnect', () => {
 	socketShowError();
 });
-socket.on('error', err => {
+socket.on('error', (err) => {
 	err = JSON.parse(err);
 	console.log('error', err);
 	Swal.fire({
@@ -63,11 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		SwalWelcome.fire({
 			html: $welcome.innerHTML,
 			confirmButtonText: 'Отлично!',
-		}).then(result => {
+		}).then((result) => {
 			SwalWelcome.fire({
 				html: '<h1>Ответьте на <b>три</b> вопроса и сформируйте свой персональный список мест для путешествия!</h1>',
 				confirmButtonText: 'Давайте начнём!',
-			}).then(result => {
+			}).then((result) => {
 				show($quizPage);
 			});
 		});
