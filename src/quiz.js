@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 	$favoritesBtn.addEventListener('click', () => {
-		hide($favoritesBtn);
+		hide($favoritesBtn, $noPlacesResults);
 		show($quizListBtn);
 		$placesCards.innerHTML = '';
 		isFavorites = true;
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	};
 
 	$quizListBtn.addEventListener('click', () => {
-		hide($quizListBtn);
+		hide($quizListBtn, $noFavoritesResults);
 		show($favoritesBtn);
 		getPlaces();
 	});
@@ -155,11 +155,22 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
-	const screenWidth = document.documentElement.clientWidth || document.body.clientWidth;
-	const styleSheet = document.createElement('style');
-	styleSheet.type = 'text/css';
-	styleSheet.innerText = `#cards-area .card img { width: ${screenWidth}px !important; }`;
-	document.head.appendChild(styleSheet);
+	// TODO: find another fix for card width
+	/* start fix card width */
+	const setCardsWidth = () => {
+		setTimeout(() => {
+			const screenWidth = document.documentElement.clientWidth || document.body.clientWidth;
+			if (screenWidth > 0) {
+				const styleSheet = document.createElement('style');
+				styleSheet.type = 'text/css';
+				styleSheet.innerText = `#cards-area .card img { width: ${screenWidth}px !important; }`;
+				document.head.appendChild(styleSheet);
+			}
+			else setCardsWidth();
+		}, 100);
+	};
+	setCardsWidth();
+	/* end fix card width */
 
 	const renderQuizList = (response) => {
 		for (const place of response) {
@@ -178,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			const $placeLike = $newPlaceCard.querySelector('.place-like');
 			$placeLike.addEventListener('click', (e) => {
 				const placeId = $placeLike.closest('.card').dataset.id;
+				const favoriteMonth = $placeLike.dataset.month;
 				if ( ! $placeLike.classList.contains('liked')) {
 					// console.log('add favorites', placeId);
 					$placeLike.classList.add('animate__heartBeat');
@@ -191,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					$placeLike.addEventListener('animationend', handleAnimationEnd);
 					socket.emit('favorites.set', {
 						place_id: placeId,
-						month: monthValue,
+						month: favoriteMonth,
 						url: window.location.href,
 					}, (response) => {
 						// console.log(response);
@@ -210,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					$placeLike.addEventListener('animationend', handleAnimationEnd);
 					socket.emit('favorites.remove', {
 						place_id: placeId,
-						month: monthValue,
+						month: favoriteMonth,
 						url: window.location.href,
 					}, (response) => {
 						// console.log(response);
@@ -219,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 			// place.favorites = 8;
 			if (place.favorites) {
+				$placeLike.dataset.month = place.favorites;
 				if (isFavorites || place.favorites === parseInt(monthValue)) {
 					$placeLike.classList.add('liked');
 					$placeLike.classList.add('btn-dark');
@@ -244,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					show($favoritesMonth);
 				}
 			}
+			else $placeLike.dataset.month = monthValue;
 			$placesCards.appendChild($newPlaceCard);
 			show($newPlaceCard);
 			// TODO: find another fix for max-height

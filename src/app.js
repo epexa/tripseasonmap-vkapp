@@ -1,3 +1,9 @@
+vkBridge.send('VKWebAppInit');
+vkBridge.send('VKWebAppGetClientVersion')
+		.then((data) => {
+			window.platformId = data.platform;
+		});
+
 const socketShowError = (errorMessage = null) => {
 	console.log(errorMessage);
 };
@@ -73,5 +79,34 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 	else show($quizPage);
+
+	// TODO: find another fix ios viewport
+	/* start fix ios viewport */
+	const fixIosViewport = () => {
+		setTimeout(() => {
+			if (platformId) {
+				if (platformId === 'ios') { // ios, android, web
+					const styleSheet = document.createElement('style');
+					styleSheet.type = 'text/css';
+					styleSheet.innerText = `
+						#question1, #question2, #question31, #question32, #result-screen .sticky-top {
+							/* Высота статус-бара в iOS 10 */
+							padding-top: 20px;
+
+							/* Высота статус-бара в iOS 11.0 */
+							padding-top: constant(safe-area-inset-top);
+
+							/* Высота статус-бара в iOS 11+ */
+							padding-top: env(safe-area-inset-top);
+						}
+					`;
+					document.head.appendChild(styleSheet);
+				}
+			}
+			else fixIosViewport();
+		}, 100);
+	};
+	fixIosViewport();
+	/* end fix ios viewport */
 
 });

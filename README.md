@@ -23,5 +23,6 @@
 | SweetAlert2 | [GitHub](https://github.com/sweetalert2/sweetalert2) | [jsDelivr](https://www.jsdelivr.com/package/npm/sweetalert2?path=dist) | 9.15.3
 | socket.io client | [GitHub](https://github.com/socketio/socket.io-client) | [jsDelivr](https://www.jsdelivr.com/package/npm/socket.io-client?path=dist) | 2.3.0
 | Animate.css | [GitHub](https://github.com/daneden/animate.css) | [jsDelivr](https://www.jsdelivr.com/package/npm/animate.css) | 4.1.0
+| VK Bridge | [GitHub](https://github.com/VKCOM/vk-bridge) | [jsDelivr](https://www.jsdelivr.com/package/npm/@vkontakte/vk-bridge?path=dist) | 2.2.3
 
 ------------

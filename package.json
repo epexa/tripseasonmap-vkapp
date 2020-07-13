@@ -10,7 +10,8 @@
     "test": "eslint src/*.js",
     "start": "npm test && node local-server.js",
     "build": "./build.sh",
-    "build-run": "npm run build && NODE_ENV=dist node local-server.js"
+    "build-run": "npm run build && NODE_ENV=dist node local-server.js",
+    "deploy": "npm run build && vk-miniapps-deploy"
   },
   "husky": {
     "hooks": {
@@ -29,6 +30,7 @@
     "eslint-config-google": "^0.12.0",
     "html-minifier": "^3.5.21",
     "husky": "^2.3.0",
-    "uglify-js": "^3.5.2"
+    "uglify-js": "^3.5.2",
+    "@vkontakte/vk-miniapps-deploy": "0.0.19"
   }
 }

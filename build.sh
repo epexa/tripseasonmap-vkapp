@@ -17,6 +17,7 @@ src/quiz.js \
 uglifyjs \
 src/lib/socket.io.slim.js \
 src/lib/sweetalert2.min.js \
+src/lib/vk-bridge.min.js \
 $DIST_FOLDER/app.js \
 -c drop_console=true,toplevel=true -m toplevel=true -o $DIST_FOLDER/app.min.js &&
 
