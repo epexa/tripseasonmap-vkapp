@@ -51,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	let question2;
 	let question3;
 
+	let isFavorites = false;
+
 	document.querySelectorAll('#questions .card').forEach(($card) => {
 		$card.addEventListener('click', (e) => {
 			e.preventDefault();
@@ -80,14 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				if (answerId === 3 || answerId === 5) question3 = 1; else question3 = 2;
 
-				getItems('places.get', (response) => {
-					// console.log(response);
-					renderQuizList(response);
-				}, {
-					month: monthValue,
-					question2: question2,
-					question3: question3,
-				});
+				getPlaces();
 			}
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		});
@@ -97,11 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		hide($favoritesBtn);
 		show($quizListBtn);
 		$placesCards.innerHTML = '';
+		isFavorites = true;
 		getItems('favorites.get', (response) => {
 			// console.log(response);
-			if (response) {
+			if (response.items && response.items.length) {
 				hide($noFavoritesResults);
-				renderQuizList(response);
+				renderQuizList(response.items);
 			}
 			else show($noFavoritesResults);
 		}, {
@@ -109,22 +105,28 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
-	$quizListBtn.addEventListener('click', () => {
-		hide($quizListBtn);
-		show($favoritesBtn);
+	const getPlaces = () => {
 		$placesCards.innerHTML = '';
+		isFavorites = false;
 		getItems('places.get', (response) => {
 			// console.log(response);
-			if (response) {
+			if (response.items && response.items.length) {
 				hide($noPlacesResults);
-				renderQuizList(response);
+				renderQuizList(response.items);
 			}
 			else show($noPlacesResults);
 		}, {
 			month: monthValue,
 			question2: question2,
 			question3: question3,
+			url: window.location.href,
 		});
+	};
+
+	$quizListBtn.addEventListener('click', () => {
+		hide($quizListBtn);
+		show($favoritesBtn);
+		getPlaces();
 	});
 
 	document.querySelector('#quiz-restart').addEventListener('click', () => {
@@ -152,6 +154,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 	});
+
+	const screenWidth = document.documentElement.clientWidth || document.body.clientWidth;
+	const styleSheet = document.createElement('style');
+	styleSheet.type = 'text/css';
+	styleSheet.innerText = `#cards-area .card img { width: ${screenWidth}px !important; }`;
+	document.head.appendChild(styleSheet);
 
 	const renderQuizList = (response) => {
 		for (const place of response) {
@@ -183,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					$placeLike.addEventListener('animationend', handleAnimationEnd);
 					socket.emit('favorites.set', {
 						place_id: placeId,
+						month: monthValue,
 						url: window.location.href,
 					}, (response) => {
 						// console.log(response);
@@ -201,6 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					$placeLike.addEventListener('animationend', handleAnimationEnd);
 					socket.emit('favorites.remove', {
 						place_id: placeId,
+						month: monthValue,
 						url: window.location.href,
 					}, (response) => {
 						// console.log(response);
@@ -209,28 +219,30 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 			// place.favorites = 8;
 			if (place.favorites) {
-				if (place.favorites === parseInt(monthValue)) {
+				if (isFavorites || place.favorites === parseInt(monthValue)) {
 					$placeLike.classList.add('liked');
 					$placeLike.classList.add('btn-dark');
 				}
-				const $favoritesMonth = $newPlaceCard.querySelector('.month');
-				let monthText;
-				switch (place.favorites) {
-					case 1: monthText = 'январе'; break;
-					case 2: monthText = 'феврале'; break;
-					case 3: monthText = 'марте'; break;
-					case 4: monthText = 'апреле'; break;
-					case 5: monthText = 'мае'; break;
-					case 6: monthText = 'июне'; break;
-					case 7: monthText = 'июле'; break;
-					case 8: monthText = 'августе'; break;
-					case 9: monthText = 'сентябре'; break;
-					case 10: monthText = 'октярбре'; break;
-					case 11: monthText = 'ноябре'; break;
-					case 12: monthText = 'декабе'; break;
+				if (isFavorites) {
+					const $favoritesMonth = $newPlaceCard.querySelector('.month');
+					let monthText;
+					switch (place.favorites) {
+						case 1: monthText = 'январе'; break;
+						case 2: monthText = 'феврале'; break;
+						case 3: monthText = 'марте'; break;
+						case 4: monthText = 'апреле'; break;
+						case 5: monthText = 'мае'; break;
+						case 6: monthText = 'июне'; break;
+						case 7: monthText = 'июле'; break;
+						case 8: monthText = 'августе'; break;
+						case 9: monthText = 'сентябре'; break;
+						case 10: monthText = 'октярбре'; break;
+						case 11: monthText = 'ноябре'; break;
+						case 12: monthText = 'декабе'; break;
+					}
+					$favoritesMonth.innerText = `В ${monthText}`;
+					show($favoritesMonth);
 				}
-				$favoritesMonth.innerText = `В ${monthText}`;
-				show($favoritesMonth);
 			}
 			$placesCards.appendChild($newPlaceCard);
 			show($newPlaceCard);
@@ -241,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				let totalHeight = 0;
 				for (let i = 0; i < $childrens.length; i++)
 					totalHeight += $childrens[i].offsetHeight;
-				$newPlaceCard.querySelector('.card-img-top').style.maxHeight = `${totalHeight - 25}px`;
+				$newPlaceCard.querySelector('.card-img-top').style.height = `${totalHeight - 25}px`;
 			}, 1000);
 			/* end fix max-height */
 			/* const $newStackPlaceCard = $stackPlaceCardTemplate.cloneNode(true);

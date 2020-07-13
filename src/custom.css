@@ -307,11 +307,17 @@ label {
   color: #ffe935 !important;
 }
 
+#cards-area .card {
+  border: none;
+}
 #cards-area .card img {
   object-fit: cover;
-  max-height: 450px;
+  height: 450px;
+  width: 100%;
 }
-
+#cards-area .card .card-img-overlay {
+  /* padding-right: 2.25rem; */
+}
 
 body {
   overflow-x: hidden;

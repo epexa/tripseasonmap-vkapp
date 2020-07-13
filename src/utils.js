@@ -48,6 +48,6 @@ const getItems = (method, callback, data = {}) => {
 	socket.emit(method, data, (response) => {
 		loadingHide();
 		console.log(response);
-		callback(response.items);
+		callback(response);
 	});
 };
