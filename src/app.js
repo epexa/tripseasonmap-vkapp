@@ -1,4 +1,5 @@
 vkBridge.send('VKWebAppInit');
+
 vkBridge.send('VKWebAppGetClientVersion')
 		.then((data) => {
 			window.platformId = data.platform;
@@ -69,12 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		SwalWelcome.fire({
 			html: $welcome.innerHTML,
 			confirmButtonText: 'Отлично!',
-		}).then((result) => {
+		}).then(() => {
 			SwalWelcome.fire({
 				html: '<h1>Ответьте на <b>три</b> вопроса и сформируйте свой персональный список мест для путешествия!</h1>',
 				confirmButtonText: 'Давайте начнём!',
-			}).then((result) => {
-				show($quizPage);
+			}).then(() => {
+				setTimeout(() => { show($quizPage); }, 1000); // ёбанный баг на айфоне!
 			});
 		});
 	}
@@ -84,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	/* start fix ios viewport */
 	const fixIosViewport = () => {
 		setTimeout(() => {
-			if (platformId) {
+			if (typeof platformId !== 'undefined') {
 				if (platformId === 'ios') { // ios, android, web
 					const styleSheet = document.createElement('style');
 					styleSheet.type = 'text/css';

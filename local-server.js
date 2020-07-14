@@ -19,7 +19,7 @@ const app = express();
 const server = require('http').createServer(app);
 
 server.listen(serverParams.port, serverParams.address, () => {
-	console.log(`Server running at http://${server.address().address}:${server.address().port} from ${workDir}`);
+	console.log(`Server running at http://${server.address().address}:${server.address().port}?1&vk_user_id=36848979&sign=1 from ${workDir}`);
 });
 
 app.use(express.static(`${__dirname}/public/`));

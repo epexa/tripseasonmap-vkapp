@@ -1,118 +1,169 @@
 <div class="d-none" id="quiz-page">
 	<div class="row">
 		<div class="col-12">
-			<div class="row mt-3 mt-sm-1">
+			<div class="row">
 				<div class="col">
-					<div class="text-center row" id="questions">
+					<div class="row" id="questions">
 
-						<div class="container animate__animated" id="question1">
-							<h5 class="animate__animated animate__fadeInDown"><span class="badge badge-info">Вопрос №1 из 3</span></h5>
-							<h4 class="text-uppercase font-weight-bold animate__animated animate__fadeInDown animate__delay-1s">В каком месяце отправляетесь путешествовать?</h4>
-							<div id="quiz-month-area">
-								<div class="row">
-									<div class="col-4 animate__animated animate__fadeInLeft animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="1">Январь</button>
+						<div class="animate__animated" id="question1">
+							<div class="card-body bg-light mb-5">
+								<h6 class="text-secondary mb-3 animate__animated animate__fadeInDown">Вопрос 1 из 3</h6>
+								<h4 class="font-weight-bold mb-3 animate__animated animate__fadeInDown animate__delay-1s">В каком месяце вы хотите путешествовать?</h4>
+								<h6 class="mb-3 animate__animated animate__fadeInDown animate__delay-1_5s">От месяца зависит, какая будет погода в регионах разных стран.</h6>
+								<div class="progress animate__animated animate__fadeInDown animate__delay-2s">
+									<div class="progress-bar bg-success" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+							<div class="container-fluid col-11" id="quiz-month-area">
+								<div class="row mb-4">
+									<div class="col-4 animate__animated animate__fadeInLeft animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="1">Январь</button>
 									</div>
-									<div class="col-4 animate__animated animate__fadeInUp animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="2">Февраль</button>
+									<div class="col-4 animate__animated animate__fadeInUp animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="2">Февраль</button>
 									</div>
-									<div class="col-4 animate__animated animate__fadeInRight animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="3">Март</button>
+									<div class="col-4 animate__animated animate__fadeInRight animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="3">Март</button>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-4 animate__animated animate__fadeInLeft animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="4">Апрель</button>
+								<div class="row mb-4">
+									<div class="col-4 animate__animated animate__fadeInLeft animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="4">Апрель</button>
 									</div>
-									<div class="col-4 animate__animated animate__fadeInUp animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="5">Май</button>
+									<div class="col-4 animate__animated animate__fadeInUp animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="5">Май</button>
 									</div>
-									<div class="col-4 animate__animated animate__fadeInRight animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="6">Июнь</button>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-4 animate__animated animate__fadeInLeft animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="7">Июль</button>
-									</div>
-									<div class="col-4 animate__animated animate__fadeInUp animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="8">Август</button>
-									</div>
-									<div class="col-4 animate__animated animate__fadeInRight animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="9">Сентябрь</button>
+									<div class="col-4 animate__animated animate__fadeInRight animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="6">Июнь</button>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-4 animate__animated animate__fadeInLeft animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="10">Октябрь</button>
+								<div class="row mb-4">
+									<div class="col-4 animate__animated animate__fadeInLeft animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="7">Июль</button>
 									</div>
-									<div class="col-4 animate__animated animate__fadeInUp animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="11">Ноябрь</button>
+									<div class="col-4 animate__animated animate__fadeInUp animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="8">Август</button>
 									</div>
-									<div class="col-4 animate__animated animate__fadeInRight animate__delay-2s">
-										<button class="btn btn-success btn-lg btn-block quiz-month" type="button" data-id="12">Декабрь</button>
+									<div class="col-4 animate__animated animate__fadeInRight animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="9">Сентябрь</button>
+									</div>
+								</div>
+								<div class="row mb-4">
+									<div class="col-4 animate__animated animate__fadeInLeft animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="10">Октябрь</button>
+									</div>
+									<div class="col-4 animate__animated animate__fadeInUp animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="11">Ноябрь</button>
+									</div>
+									<div class="col-4 animate__animated animate__fadeInRight animate__delay-2_5s">
+										<button class="btn btn-secondary btn-block quiz-month" type="button" data-id="12">Декабрь</button>
 									</div>
 								</div>
 							</div>
 						</div>
 
 						<div class="d-none animate__animated" id="question2">
-							<h5 class="animate__animated animate__fadeInDown"><span class="badge badge-info">Вопрос №2 из 3</span></h5>
-							<h4 class="text-uppercase font-weight-bold animate__animated animate__fadeInDown animate__delay-1s">Что больше предпочитаете?</h4>
-							<div class="card animate__animated animate__fadeInLeft animate__delay-2s" data-id="1">
-								<picture>
-									<source type="image/webp" srcset="graphics/question-2-1.webp">
-									<img class="card-img-top" src="graphics/question-2-1.jpg" alt="Природа">
-								</picture>
-								<!-- <div class="card-body">
-									<button type="button" class="btn btn-success btn-lg btn-block stretched-link" data-id="1">Природа</button>
-								</div> -->
+							<div class="card-body bg-light mb-5">
+								<h6 class="text-secondary mb-3 animate__animated animate__fadeInDown">Вопрос 2 из 3</h6>
+								<h4 class="font-weight-bold mb-3 animate__animated animate__fadeInDown animate__delay-1s">Что больше предпочитаете?</h4>
+								<h6 class="mb-3 animate__animated animate__fadeInDown animate__delay-1_5s">Отдых на природе подходит для достижения спокойствия и умиротворенности. А в городе - для расширение мировоззрения и знакомство с другими культурами.</h6>
+								<div class="progress animate__animated animate__fadeInDown animate__delay-2s">
+									<div class="progress-bar bg-success" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
 							</div>
-							<!-- <div class="hr my-5">
-								<span class="display-4 font-weight-bold text-monospace hr-text">ИЛИ</span>
-							</div> -->
-							<div class="card animate__animated animate__fadeInRight animate__delay-2s" data-id="2">
-								<picture>
-									<source type="image/webp" srcset="graphics/question-2-2.webp">
-									<img class="card-img-top" src="graphics/question-2-2.jpg" alt="Город">
-								</picture>
-								<!-- <div class="card-body">
-									<button type="button" class="btn btn-warning btn-lg btn-block stretched-link" data-id="2">Город</button>
-								</div> -->
+							<div class="container-fluid">
+								<div class="card mb-3 animate__animated animate__fadeInLeft animate__delay-2_5s" data-id="1">
+									<picture>
+										<source type="image/webp" srcset="graphics/question-2-1.webp">
+										<img class="card-img-top" src="graphics/question-2-1.jpg" alt="Природа">
+									</picture>
+									<div class="card-img-overlay">
+										<div class="fixed-bottom pb-3 pl-4">
+											<p class="h4 font-weight-bold text-white text-backdrop">Природа</p>
+										</div>
+									</div>
+								</div>
+								<div class="card mb-3 animate__animated animate__fadeInRight animate__delay-2_5s" data-id="2">
+									<picture>
+										<source type="image/webp" srcset="graphics/question-2-2.webp">
+										<img class="card-img-top" src="graphics/question-2-2.jpg" alt="Город">
+									</picture>
+									<div class="card-img-overlay">
+										<div class="fixed-bottom pb-3 pl-4">
+											<p class="h4 font-weight-bold text-white text-backdrop">Город</p>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 
 						<div class="d-none animate__animated" id="question31">
-							<h5 class="animate__animated animate__fadeInDown"><span class="badge badge-info">Вопрос №3 из 3</span></h5>
-							<h4 class="text-uppercase font-weight-bold animate__animated animate__fadeInDown animate__delay-1s">Какая природа нравится больше?</h4>
-							<div class="card animate__animated animate__fadeInLeft animate__delay-2s" data-id="3">
-								<picture>
-									<source type="image/webp" srcset="graphics/question-3-1.webp">
-									<img class="card-img-top" src="graphics/question-3-1.jpg" alt="Горы/Водопады">
-								</picture>
+							<div class="card-body bg-light mb-5">
+								<h6 class="text-secondary mb-3 animate__animated animate__fadeInDown">Вопрос 3 из 3</h6>
+								<h4 class="font-weight-bold mb-3 animate__animated animate__fadeInDown animate__delay-1s">Какая природа вам нравится больше?</h4>
+								<h6 class="mb-3 animate__animated animate__fadeInDown animate__delay-1_5s">Поездка в горы подходит для тех, кто любит хайкинг. Море - для тех, кто любит водные виды спорта и классический пляжный отдых.</h6>
+								<div class="progress animate__animated animate__fadeInDown animate__delay-2s">
+									<div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
 							</div>
-							<div class="card animate__animated animate__fadeInRight animate__delay-2s" data-id="4">
-								<picture>
-									<source type="image/webp" srcset="graphics/question-3-2.webp">
-									<img class="card-img-top" src="graphics/question-3-2.jpg" alt="Океан/Море">
-								</picture>
+							<div class="container-fluid">
+								<div class="card mb-3 animate__animated animate__fadeInLeft animate__delay-2_5s" data-id="3">
+									<picture>
+										<source type="image/webp" srcset="graphics/question-3-1.webp">
+										<img class="card-img-top" src="graphics/question-3-1.jpg" alt="Горы и водопады">
+									</picture>
+									<div class="card-img-overlay">
+										<div class="fixed-bottom pb-3 pl-4">
+											<p class="h4 font-weight-bold text-white text-backdrop">Горы и водопады</p>
+										</div>
+									</div>
+								</div>
+								<div class="card mb-3 animate__animated animate__fadeInRight animate__delay-2_5s" data-id="4">
+									<picture>
+										<source type="image/webp" srcset="graphics/question-3-2.webp">
+										<img class="card-img-top" src="graphics/question-3-2.jpg" alt="Океан и море">
+									</picture>
+									<div class="card-img-overlay">
+										<div class="fixed-bottom pb-3 pl-4">
+											<p class="h4 font-weight-bold text-white text-backdrop">Океан и море</p>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 
-						<div class="d-none" id="question32">
-							<h5 class="animate__animated animate__fadeInDown"><span class="badge badge-info">Вопрос №3 из 3</span></h5>
-							<h4 class="text-uppercase font-weight-bold animate__animated animate__fadeInDown animate__delay-1s">Какие города нравятся больше?</h4>
-							<div class="card animate__animated animate__fadeInLeft animate__delay-2s" data-id="5">
-								<picture>
-									<source type="image/webp" srcset="graphics/question-3-3.webp">
-									<img class="card-img-top" src="graphics/question-3-3.jpg" alt="Старинные">
-								</picture>
+						<div class="d-none animate__animated" id="question32">
+							<div class="card-body bg-light mb-5">
+								<h6 class="text-secondary mb-3 animate__animated animate__fadeInDown">Вопрос 3 из 3</h6>
+								<h4 class="font-weight-bold mb-3 animate__animated animate__fadeInDown animate__delay-1s">Какие города вам нравятся больше?</h4>
+								<h6 class="mb-3 animate__animated animate__fadeInDown animate__delay-1_5s">Современные города - это все крупные мегаполисы мира. Старинные города - это историческая ценность и культура.</h6>
+								<div class="progress animate__animated animate__fadeInDown animate__delay-2s">
+									<div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
 							</div>
-							<div class="card animate__animated animate__fadeInRight animate__delay-2s" data-id="6">
-								<picture>
-									<source type="image/webp" srcset="graphics/question-3-4.webp">
-									<img class="card-img-top" src="graphics/question-3-4.jpg" alt="Современные">
-								</picture>
+							<div class="container-fluid">
+								<div class="card mb-3 animate__animated animate__fadeInLeft animate__delay-2_5s" data-id="5">
+									<picture>
+										<source type="image/webp" srcset="graphics/question-3-3.webp">
+										<img class="card-img-top" src="graphics/question-3-3.jpg" alt="Старинные">
+									</picture>
+									<div class="card-img-overlay">
+										<div class="fixed-bottom pb-3 pl-4">
+											<p class="h4 font-weight-bold text-white text-backdrop">Старинные</p>
+										</div>
+									</div>
+								</div>
+								<div class="card mb-3 animate__animated animate__fadeInRight animate__delay-2_5s" data-id="6">
+									<picture>
+										<source type="image/webp" srcset="graphics/question-3-4.webp">
+										<img class="card-img-top" src="graphics/question-3-4.jpg" alt="Современные">
+									</picture>
+									<div class="card-img-overlay">
+										<div class="fixed-bottom pb-3 pl-4">
+											<p class="h4 font-weight-bold text-white text-backdrop">Современные</p>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 
@@ -141,7 +192,7 @@
 									<img class="card-img-top" src="graphics/question-2-1.jpg">
 								</picture>
 								<div class="card-img-overlay">
-									<button type="button" class="btn btn-light btn-circle btn-circle-lg float-right place-like animate__animated"><i class="icon icon-heart text-danger"></i></button>
+									<button type="button" class="btn btn-light btn-circle btn-circle-lg float-right text-secondary place-like animate__animated"><i class="icon icon-heart"></i></button>
 									<div>
 										<p class="h3 font-weight-bold text-white text-backdrop mb-2 country">Тайланд</p>
 									</div>
@@ -162,7 +213,7 @@
 
 							<div class="row">
 								<!-- container col-12 col-lg-6 -->
-								<div class="my-3" id="places-cards">
+								<div id="places-cards">
 								</div>
 							</div>
 

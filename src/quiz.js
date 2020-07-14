@@ -53,9 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	let isFavorites = false;
 
+	let placesLoaded = false;
+
 	document.querySelectorAll('#questions .card').forEach(($card) => {
 		$card.addEventListener('click', (e) => {
 			e.preventDefault();
+			if (placesLoaded) return;
 			const answerId = parseInt($card.dataset.id);
 			if (answerId === 1 || answerId === 2) {
 				$question2.classList.add('animate__fadeOut');
@@ -83,6 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				if (answerId === 3 || answerId === 5) question3 = 1; else question3 = 2;
 
 				getPlaces();
+				placesLoaded = true;
+				setTimeout(() => { placesLoaded = false; }, 2000);
 			}
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		});
@@ -151,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				$question32.classList.remove('animate__fadeOut');
 				show($question1);
 				hide($resultScreen, $cardsArea); // $stackCardsArea
+				window.scrollTo({ top: 0, behavior: 'smooth' });
 			}
 		});
 	});
@@ -197,8 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
 					const handleAnimationEnd = () => {
 						$placeLike.removeEventListener('animationend', handleAnimationEnd);
 						$placeLike.classList.remove('animate__heartBeat');
-						$placeLike.classList.remove('btn-light');
-						$placeLike.classList.add('btn-dark');
+						$placeLike.classList.remove('text-secondary');
+						$placeLike.classList.add('text-danger');
 					};
 					$placeLike.addEventListener('animationend', handleAnimationEnd);
 					socket.emit('favorites.set', {
@@ -216,8 +222,8 @@ document.addEventListener('DOMContentLoaded', () => {
 					const handleAnimationEnd = () => {
 						$placeLike.removeEventListener('animationend', handleAnimationEnd);
 						$placeLike.classList.remove('animate__flip');
-						$placeLike.classList.remove('btn-dark');
-						$placeLike.classList.add('btn-light');
+						$placeLike.classList.remove('text-danger');
+						$placeLike.classList.add('text-secondary');
 					};
 					$placeLike.addEventListener('animationend', handleAnimationEnd);
 					socket.emit('favorites.remove', {
@@ -234,7 +240,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				$placeLike.dataset.month = place.favorites;
 				if (isFavorites || place.favorites === parseInt(monthValue)) {
 					$placeLike.classList.add('liked');
-					$placeLike.classList.add('btn-dark');
+					$placeLike.classList.remove('text-secondary');
+					$placeLike.classList.add('text-danger');
 				}
 				if (isFavorites) {
 					const $favoritesMonth = $newPlaceCard.querySelector('.month');
