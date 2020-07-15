@@ -192,8 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			let classList;
 			if (place.season === 1) classList = 'success'; else classList = 'warning';
 			$newPlaceCard.querySelector('.season').classList.add(`text-${classList}`);
+
 			const $placeLike = $newPlaceCard.querySelector('.place-like');
-			$placeLike.addEventListener('click', (e) => {
+			$placeLike.addEventListener('click', () => {
 				const placeId = $placeLike.closest('.card').dataset.id;
 				const favoriteMonth = $placeLike.dataset.month;
 				if ( ! $placeLike.classList.contains('liked')) {
@@ -235,6 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					});
 				}
 			});
+
 			// place.favorites = 8;
 			if (place.favorites) {
 				$placeLike.dataset.month = place.favorites;
@@ -258,15 +260,41 @@ document.addEventListener('DOMContentLoaded', () => {
 						case 9: monthText = 'сентябре'; break;
 						case 10: monthText = 'октярбре'; break;
 						case 11: monthText = 'ноябре'; break;
-						case 12: monthText = 'декабе'; break;
+						case 12: monthText = 'декабре'; break;
 					}
 					$favoritesMonth.innerText = `В ${monthText}`;
 					show($favoritesMonth);
 				}
 			}
 			else $placeLike.dataset.month = monthValue;
+
+			const $placeShare = $newPlaceCard.querySelector('.place-share');
+			$placeShare.addEventListener('click', () => {
+				vkBridge.send('VKWebAppShowWallPostBox', {
+					message: 'Мне понравилось и я советую приложение Trip Season Map!\nvk.com/app7535937\n#tripseasonmap',
+					attachments: `photo${place.vk_share_ru},https://vk.com/app7535937`,
+					copyright: 'https://vk.com/app7535937',
+					services: 'facebook,twitter',
+					/* lat: 23,
+					long: 42, */
+				}).then(() => {
+					Swal.fire({
+						title: 'Спасибо!',
+						icon: 'success',
+						showCloseButton: true,
+						toast: true,
+						showConfirmButton: false,
+						position: 'center',
+						timer: 2000,
+						timerProgressBar: true,
+					});
+				});
+			});
+			if (isFavorites) show($placeShare);
+
 			$placesCards.appendChild($newPlaceCard);
 			show($newPlaceCard);
+
 			// TODO: find another fix for max-height
 			/* start fix max-height */
 			setTimeout(() => {
@@ -274,9 +302,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				let totalHeight = 0;
 				for (let i = 0; i < $childrens.length; i++)
 					totalHeight += $childrens[i].offsetHeight;
-				$newPlaceCard.querySelector('.card-img-top').style.height = `${totalHeight - 25}px`;
-			}, 1000);
+				$newPlaceCard.querySelector('.card-img-top').style.height = `${totalHeight + 40}px`;
+			}, 750);
 			/* end fix max-height */
+
 			/* const $newStackPlaceCard = $stackPlaceCardTemplate.cloneNode(true);
 			$newStackPlaceCard.removeAttribute('id');
 			$newStackPlaceCard.querySelector('.card-img-top').src = `places/${place.id}/1.webp`;

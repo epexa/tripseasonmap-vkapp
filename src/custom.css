@@ -2,11 +2,17 @@ html {
   position: relative;
   min-height: 100%;
   /* touch-action: none; */
+  overflow-x: hidden; /* ёбанный айфон! */
 }
 
 body {
   /* margin-bottom: 60px; */
   /*font-family: Ubuntu, "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow-x: hidden; /* ёбанный айфон два раза! */
 }
 
 /* *::-webkit-scrollbar {
@@ -227,7 +233,7 @@ label {
 .btn-circle {
   width: 45px;
   height: 45px;
-  line-height: 45px !important;
+  /* line-height: 45px !important; */
   padding: 0;
   border-radius: 50% !important;
 }
@@ -337,15 +343,12 @@ label {
 }
 #cards-area .card img {
   object-fit: cover;
+  transition: 0.5s;
   height: 450px;
   width: 100%;
 }
 #cards-area .card .card-img-overlay {
   /* padding-right: 2.25rem; */
-}
-
-body {
-  overflow-x: hidden;
 }
 
 /* .stack {
