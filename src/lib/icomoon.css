@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('fonts/icomoon.woff?sa7wh4') format('woff');
+    url('fonts/icomoon.woff?wv2yh') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -22,6 +22,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-play:before {
+  content: "\e902";
+}
 .icon-share:before {
   content: "\e903";
 }

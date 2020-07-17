@@ -94,10 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 	$favoritesBtn.addEventListener('click', () => {
+		isFavorites = true;
 		hide($favoritesBtn, $noPlacesResults);
 		show($quizListBtn);
 		$placesCards.innerHTML = '';
-		isFavorites = true;
+		$placesCards.classList.add('favorites');
 		getItems('favorites.get', (response) => {
 			// console.log(response);
 			if (response.items && response.items.length) {
@@ -111,8 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 	const getPlaces = () => {
-		$placesCards.innerHTML = '';
 		isFavorites = false;
+		$placesCards.innerHTML = '';
+		$placesCards.classList.remove('favorites');
 		getItems('places.get', (response) => {
 			// console.log(response);
 			if (response.items && response.items.length) {
@@ -156,6 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				$question32.classList.remove('animate__fadeOut');
 				show($question1);
 				hide($resultScreen, $cardsArea); // $stackCardsArea
+				isFavorites = false;
+				$placesCards.classList.remove('favorites');
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			}
 		});
@@ -292,6 +296,25 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 			if (isFavorites) show($placeShare);
 
+			const $video = $newPlaceCard.querySelector('.video');
+			$video.href = `https://www.youtube.com/watch?v=${place.video}`;
+			$video.addEventListener('click', (e) => {
+				if ( ! localStorage.video) {
+					e.preventDefault();
+					localStorage.video = 1;
+					Swal.fire({
+						html: 'Вы будете перенаправлены в YouTube.<br>После просмотра видео, не забудьте вернуться и посмотреть другие места!',
+						confirmButtonText: 'Конечно!',
+						icon: 'warning',
+						customClass: {
+							confirmButton: 'btn btn-success btn-lg',
+						},
+					}).then(() => {
+						$video.click();
+					});
+				}
+			});
+
 			$placesCards.appendChild($newPlaceCard);
 			show($newPlaceCard);
 
@@ -303,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				for (let i = 0; i < $childrens.length; i++)
 					totalHeight += $childrens[i].offsetHeight;
 				$newPlaceCard.querySelector('.card-img-top').style.height = `${totalHeight + 40}px`;
-			}, 750);
+			}, 1000);
 			/* end fix max-height */
 
 			/* const $newStackPlaceCard = $stackPlaceCardTemplate.cloneNode(true);
@@ -319,6 +342,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		};
 	};
+
+	/* vkBridge.send('VKWebAppGetAuthToken', { app_id: 7535937, scope: 'friends' })
+			.then((data) => {
+				console.log(data);
+			}); */
+
+	/* vkBridge.send('VKWebAppCallAPIMethod', {
+		method: 'friends.getAppUsers',
+		params: {
+			v: '5.120',
+			access_token: '34e188700473c5ff44a6181a52113f3abfbd19e5687951ad8740d7c7f1815f0a8033499b7e0e0a9e07309',
+		},
+	})
+			.then((data) => {
+				console.log(data);
+			}); */
 
 	/* const getLastStackCard = () => {
 		let lastStackCard;

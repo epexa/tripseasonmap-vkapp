@@ -90,15 +90,15 @@ document.addEventListener('DOMContentLoaded', () => {
 					const styleSheet = document.createElement('style');
 					styleSheet.type = 'text/css';
 					styleSheet.innerText = `
-						#question1, #question2, #question31, #question32, #result-screen .sticky-top {
+						#question1, #question2, #question31, #question32, #result-screen, .fixed-top {
 							/* Высота статус-бара в iOS 10 */
-							padding-top: 20px;
+							padding-top: 20px !important;
 
 							/* Высота статус-бара в iOS 11.0 */
-							padding-top: constant(safe-area-inset-top);
+							padding-top: constant(safe-area-inset-top) !important;
 
 							/* Высота статус-бара в iOS 11+ */
-							padding-top: env(safe-area-inset-top);
+							padding-top: env(safe-area-inset-top) !important;
 						}
 					`;
 					document.head.appendChild(styleSheet);
