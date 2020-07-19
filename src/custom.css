@@ -212,12 +212,6 @@ h1 {
 
 }
 
-/* start temp fix height select on mobile app */
-.form-control {
-  font-size: calc(0.9375rem + 3px);
-}
-/* end temp fix height select on mobile app */
-
 .btn .icon {
   position: relative;
   top: 1.5px;
@@ -266,6 +260,10 @@ h1 {
   color: #000;
 }
 
+.btn-outline-danger, .btn-outline-warning {
+  background-color: #fff;
+}
+
 .progress {
   height: 8px;
   position: relative;
@@ -290,6 +288,15 @@ h1 {
   z-index: 1;
 }
 
+select {
+  border-color: #18bc9c !important;
+  color: #18bc9c !important;
+}
+
+.input-group-append .btn {
+  height: calc(1.5em + 0.75rem + 2px);
+}
+
 .animate__animated.animate__delay-1_5s {
   -webkit-animation-delay: calc(1s * 1.5);
   animation-delay: calc(1s * 1.5);
@@ -303,6 +310,9 @@ h1 {
   animation-delay: calc(var(--animate-delay) * 2.5);
 }
 
+#questions .card {
+  cursor: pointer;
+}
 #questions .card-body {
   padding-bottom: 0;
 }
@@ -320,7 +330,7 @@ h1 {
   background: #fff;
 }
 
-#cards-area {
+#filter-form {
   margin-top: 65px;
 }
 

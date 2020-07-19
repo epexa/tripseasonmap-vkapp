@@ -18,6 +18,9 @@ uglifyjs \
 src/lib/socket.io.slim.js \
 src/lib/sweetalert2.min.js \
 src/lib/vk-bridge.min.js \
+src/lib/1-lightgallery.min.js \
+src/lib/2-lg-zoom.min.js \
+src/lib/3-lg-autoplay.min.js \
 $DIST_FOLDER/app.js \
 -c drop_console=true,toplevel=true -m toplevel=true -o $DIST_FOLDER/app.min.js &&
 
@@ -36,5 +39,6 @@ src/lib/bootstrap.min.css \
 src/lib/sweetalert2.min.css \
 src/lib/icomoon.css \
 src/lib/animate.min.css \
+src/lib/lightgallery.min.css \
 src/custom.css \
 -o $DIST_FOLDER/custom.min.css --skip-rebase

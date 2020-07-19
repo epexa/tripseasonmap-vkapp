@@ -1,8 +1,12 @@
+let platformId;
+
+// const vkApiVersion = '5.120';
+
 vkBridge.send('VKWebAppInit');
 
 vkBridge.send('VKWebAppGetClientVersion')
 		.then((data) => {
-			window.platformId = data.platform;
+			platformId = data.platform;
 		});
 
 const socketShowError = (errorMessage = null) => {
@@ -85,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	/* start fix ios viewport */
 	const fixIosViewport = () => {
 		setTimeout(() => {
-			if (typeof platformId !== 'undefined') {
+			if (platformId) {
 				if (platformId === 'ios') { // ios, android, web
 					const styleSheet = document.createElement('style');
 					styleSheet.type = 'text/css';

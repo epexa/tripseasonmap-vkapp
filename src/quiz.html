@@ -175,6 +175,45 @@
 			</div>
 		</div>
 
+		<form class="container-fluid" id="filter-form">
+			<div class="form-group mt-2">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<button class="btn btn-outline-success" type="button" id="prev-month" disabled><i class="icon icon-arrow-left"></i></button>
+					</div>
+					<select class="form-control custom-select" id="select-month" name="month">
+						<option value="1">Январь</option>
+						<option value="2">Февраль</option>
+						<option value="3">Март</option>
+						<option value="4">Апрель</option>
+						<option value="5">Май</option>
+						<option value="6">Июнь</option>
+						<option value="7">Июль</option>
+						<option value="8">Август</option>
+						<option value="9">Сентябрь</option>
+						<option value="10">Октябрь</option>
+						<option value="11">Ноябрь</option>
+						<option value="12">Декабрь</option>
+					</select>
+					<div class="input-group-append">
+						<button class="btn btn-outline-success" type="button" id="next-month"><i class="icon icon-arrow-right"></i></button>
+					</div>
+				</div>
+			</div>
+			<div class="form-group mt-2">
+				<div class="btn-group btn-block" role="group">
+					<button type="button" class="btn btn-outline-success active">Природа</button>
+					<button type="button" class="btn btn-outline-success">Город</button>
+				</div>
+			</div>
+			<div class="form-group mt-2">
+				<div class="btn-group btn-block" role="group">
+					<button type="button" class="btn btn-outline-success">Горы и водопады</button>
+					<button type="button" class="btn btn-outline-success active">Океан и море</button>
+				</div>
+			</div>
+		</form>
+
 		<!--
 			https://getbootstrap.com/docs/4.5/components/card
 			https://getbootstrap.com/docs/4.5/utilities/stretched-link
@@ -207,7 +246,10 @@
 					</div>
 				</div>
 				<div class="card-footer">
-					<a class="btn btn-danger btn-lg btn-block video" target="_blank"><i class="icon icon-play"></i> Видеообзор</a>
+					<div class="btn-group btn-block" role="group">
+						<a class="btn btn-outline-danger btn-lg video" target="_blank"><i class="icon icon-play"></i> Видеообзор</a>
+						<button class="btn btn-outline-warning btn-lg photos"><i class="icon icon-camera"></i> Фотографии</button>
+					</div>
 				</div>
 			</div>
 
@@ -268,4 +310,5 @@
 		</div> -->
 
 	</div>
+
 </div>

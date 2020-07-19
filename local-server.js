@@ -19,7 +19,7 @@ const app = express();
 const server = require('http').createServer(app);
 
 server.listen(serverParams.port, serverParams.address, () => {
-	console.log(`Server running at http://${server.address().address}:${server.address().port}?1&vk_user_id=36848979&sign=1 from ${workDir}`);
+	console.log(`Server running at http://${server.address().address}:${server.address().port}?vk_access_token_settings=friends&vk_app_id=7535937&vk_are_notifications_enabled=0&vk_is_app_user=1&vk_is_favorite=1&vk_language=ru&vk_platform=desktop_web&vk_ref=other&vk_user_id=16488084&sign=zc2BlooqjEK2qOkIglEH6vKGlwxGsfVUfIlj8ajD-OM from ${workDir}`);
 });
 
 app.use(express.static(`${__dirname}/public/`));

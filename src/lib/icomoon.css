@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('fonts/icomoon.woff?wv2yh') format('woff');
+    url('fonts/icomoon.woff?3w5m4j') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -22,6 +22,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-camera:before {
+  content: "\e906";
+}
+.icon-arrow-left:before {
+  content: "\e905";
+}
+.icon-arrow-right:before {
+  content: "\e904";
+}
 .icon-play:before {
   content: "\e902";
 }

@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		'#quiz-list-btn',
 		'#no-places-results',
 		'#no-favorites-results',
+		'#select-month',
+		'#prev-month',
+		'#next-month',
 	);
 
 	/* const stack = swing.Stack({
@@ -182,6 +185,77 @@ document.addEventListener('DOMContentLoaded', () => {
 	setCardsWidth();
 	/* end fix card width */
 
+	/* new PhotoSwipe(document.querySelector('.pswp'), PhotoSwipeUI_Default, [
+		{
+			src: 'https://placekitten.com/1200/900',
+			w: 1200,
+			h: 900,
+		},
+		{
+			src: 'https://placekitten.com/600/400',
+			w: 600,
+			h: 400,
+		},
+	], {
+		history: false,
+		captionEl: false,
+		fullscreenEl: false,
+		zoomEl: false,
+		shareButtons: false,
+		closeElClasses: [ 'item', 'ui', 'top-bar' ],
+		indexIndicatorSep: ' из ',
+		getDoubleTapZoom: (isMouseClick, item) => {
+			if (isMouseClick) {
+				// pswp.next();
+				return 1;
+			}
+			else {
+				return item.initialZoomLevel < 0.7 ? 1 : 1.5;
+			}
+		},
+	}).init(); */
+
+	const $lightgallery = document.querySelector('#lightgallery');
+	/* start only web, not mVK */
+	const screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
+	if (screenHeight > 1000) {
+		$lightgallery.addEventListener('onSlideClick', () => {
+			window.lgData[$lightgallery.getAttribute('lg-uid')].goToNextSlide();
+		});
+	}
+	/* end only web, not mVK */
+	$lightgallery.addEventListener('onCloseAfter', () => {
+		window.lgData[$lightgallery.getAttribute('lg-uid')].destroy(true);
+		lightgalleryOptions.dynamicEl = [];
+	});
+	const lightgalleryOptions = {
+		hideBarsDelay: 1000,
+		getCaptionFromTitleOrAlt: false,
+		showAfterLoad: false,
+		download: false,
+		actualSize: false,
+		autoplay: true,
+		pause: 2000,
+		dynamic: true,
+		dynamicEl: [],
+	};
+
+	const showVkImages = (images) => {
+		if (platformId === 'ios' || platformId === 'android') {
+			vkBridge.send('VKWebAppShowImages', {
+				images: images,
+			});
+		}
+		else {
+			for (const image of images) {
+				lightgalleryOptions.dynamicEl.push({
+					src: image,
+				});
+			}
+			lightGallery($lightgallery, lightgalleryOptions);
+		}
+	};
+
 	const renderQuizList = (response) => {
 		for (const place of response) {
 			const $newPlaceCard = $placeCardTemplate.cloneNode(true);
@@ -197,21 +271,21 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (place.season === 1) classList = 'success'; else classList = 'warning';
 			$newPlaceCard.querySelector('.season').classList.add(`text-${classList}`);
 
-			const $placeLike = $newPlaceCard.querySelector('.place-like');
-			$placeLike.addEventListener('click', () => {
-				const placeId = $placeLike.closest('.card').dataset.id;
-				const favoriteMonth = $placeLike.dataset.month;
-				if ( ! $placeLike.classList.contains('liked')) {
+			const $placeLikeBtn = $newPlaceCard.querySelector('.place-like');
+			$placeLikeBtn.addEventListener('click', () => {
+				const placeId = $placeLikeBtn.closest('.card').dataset.id;
+				const favoriteMonth = $placeLikeBtn.dataset.month;
+				if ( ! $placeLikeBtn.classList.contains('liked')) {
 					// console.log('add favorites', placeId);
-					$placeLike.classList.add('animate__heartBeat');
-					$placeLike.classList.add('liked');
+					$placeLikeBtn.classList.add('animate__heartBeat');
+					$placeLikeBtn.classList.add('liked');
 					const handleAnimationEnd = () => {
-						$placeLike.removeEventListener('animationend', handleAnimationEnd);
-						$placeLike.classList.remove('animate__heartBeat');
-						$placeLike.classList.remove('text-secondary');
-						$placeLike.classList.add('text-danger');
+						$placeLikeBtn.removeEventListener('animationend', handleAnimationEnd);
+						$placeLikeBtn.classList.remove('animate__heartBeat');
+						$placeLikeBtn.classList.remove('text-secondary');
+						$placeLikeBtn.classList.add('text-danger');
 					};
-					$placeLike.addEventListener('animationend', handleAnimationEnd);
+					$placeLikeBtn.addEventListener('animationend', handleAnimationEnd);
 					socket.emit('favorites.set', {
 						place_id: placeId,
 						month: favoriteMonth,
@@ -222,15 +296,15 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 				else {
 					// console.log('remove favorites', placeId);
-					$placeLike.classList.remove('liked');
-					$placeLike.classList.add('animate__flip');
+					$placeLikeBtn.classList.remove('liked');
+					$placeLikeBtn.classList.add('animate__flip');
 					const handleAnimationEnd = () => {
-						$placeLike.removeEventListener('animationend', handleAnimationEnd);
-						$placeLike.classList.remove('animate__flip');
-						$placeLike.classList.remove('text-danger');
-						$placeLike.classList.add('text-secondary');
+						$placeLikeBtn.removeEventListener('animationend', handleAnimationEnd);
+						$placeLikeBtn.classList.remove('animate__flip');
+						$placeLikeBtn.classList.remove('text-danger');
+						$placeLikeBtn.classList.add('text-secondary');
 					};
-					$placeLike.addEventListener('animationend', handleAnimationEnd);
+					$placeLikeBtn.addEventListener('animationend', handleAnimationEnd);
 					socket.emit('favorites.remove', {
 						place_id: placeId,
 						month: favoriteMonth,
@@ -243,11 +317,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			// place.favorites = 8;
 			if (place.favorites) {
-				$placeLike.dataset.month = place.favorites;
+				$placeLikeBtn.dataset.month = place.favorites;
 				if (isFavorites || place.favorites === parseInt(monthValue)) {
-					$placeLike.classList.add('liked');
-					$placeLike.classList.remove('text-secondary');
-					$placeLike.classList.add('text-danger');
+					$placeLikeBtn.classList.add('liked');
+					$placeLikeBtn.classList.remove('text-secondary');
+					$placeLikeBtn.classList.add('text-danger');
 				}
 				if (isFavorites) {
 					const $favoritesMonth = $newPlaceCard.querySelector('.month');
@@ -270,10 +344,10 @@ document.addEventListener('DOMContentLoaded', () => {
 					show($favoritesMonth);
 				}
 			}
-			else $placeLike.dataset.month = monthValue;
+			else $placeLikeBtn.dataset.month = monthValue;
 
-			const $placeShare = $newPlaceCard.querySelector('.place-share');
-			$placeShare.addEventListener('click', () => {
+			const $placeShareBtn = $newPlaceCard.querySelector('.place-share');
+			$placeShareBtn.addEventListener('click', () => {
 				vkBridge.send('VKWebAppShowWallPostBox', {
 					message: 'Мне понравилось и я советую приложение Trip Season Map!\nvk.com/app7535937\n#tripseasonmap',
 					attachments: `photo${place.vk_share_ru},https://vk.com/app7535937`,
@@ -294,11 +368,11 @@ document.addEventListener('DOMContentLoaded', () => {
 					});
 				});
 			});
-			if (isFavorites) show($placeShare);
+			if (isFavorites) show($placeShareBtn);
 
-			const $video = $newPlaceCard.querySelector('.video');
-			$video.href = `https://www.youtube.com/watch?v=${place.video}`;
-			$video.addEventListener('click', (e) => {
+			const $videoBtn = $newPlaceCard.querySelector('.video');
+			$videoBtn.href = `https://www.youtube.com/watch?v=${place.video}`;
+			$videoBtn.addEventListener('click', (e) => {
 				if ( ! localStorage.video) {
 					e.preventDefault();
 					localStorage.video = 1;
@@ -310,9 +384,16 @@ document.addEventListener('DOMContentLoaded', () => {
 							confirmButton: 'btn btn-success btn-lg',
 						},
 					}).then(() => {
-						$video.click();
+						$videoBtn.click();
 					});
 				}
+			});
+
+			const $photosBtn = $newPlaceCard.querySelector('.photos');
+			$photosBtn.addEventListener('click', () => {
+				// place.vk_photos = 'https://pp.userapi.com/c639229/v639229113/31b31/KLVUrSZwAM4.jpg;https://pp.userapi.com/c639229/v639229113/31b94/mWQwkgDjav0.jpg;https://pp.userapi.com/c639229/v639229113/31b3a/Lw2it6bdISc.jpg';
+				const vkImagesArr = place.vk_photos.split(';');
+				showVkImages(vkImagesArr);
 			});
 
 			$placesCards.appendChild($newPlaceCard);
@@ -343,6 +424,33 @@ document.addEventListener('DOMContentLoaded', () => {
 		};
 	};
 
+	$selectMonth.addEventListener('change', () => {
+		if ($selectMonth.selectedIndex > 0) $prevMonth.removeAttribute('disabled');
+		else $prevMonth.setAttribute('disabled', '');
+		if ($selectMonth.selectedIndex < 11) $nextMonth.removeAttribute('disabled');
+		else $nextMonth.setAttribute('disabled', '');
+	});
+
+	const trigger = (element, event) => {
+		const evt = document.createEvent('HTMLEvents');
+		evt.initEvent(event, true, true);
+		return ! element.dispatchEvent(evt);
+	};
+
+	$prevMonth.addEventListener('click', () => {
+		if ($selectMonth.selectedIndex > 0) {
+			$selectMonth.selectedIndex--;
+			trigger($selectMonth, 'change');
+		}
+	});
+
+	$nextMonth.addEventListener('click', () => {
+		if ($selectMonth.selectedIndex < 11) {
+			$selectMonth.selectedIndex++;
+			trigger($selectMonth, 'change');
+		}
+	});
+
 	/* vkBridge.send('VKWebAppGetAuthToken', { app_id: 7535937, scope: 'friends' })
 			.then((data) => {
 				console.log(data);
@@ -351,7 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	/* vkBridge.send('VKWebAppCallAPIMethod', {
 		method: 'friends.getAppUsers',
 		params: {
-			v: '5.120',
+			v: vkApiVersion,
 			access_token: '34e188700473c5ff44a6181a52113f3abfbd19e5687951ad8740d7c7f1815f0a8033499b7e0e0a9e07309',
 		},
 	})
