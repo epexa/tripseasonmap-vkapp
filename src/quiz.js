@@ -16,9 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		'#quiz-list-btn',
 		'#no-places-results',
 		'#no-favorites-results',
+		'#filter-form',
 		'#select-month',
 		'#prev-month',
 		'#next-month',
+		'#second-filter1',
+		'#second-filter2',
+		'#third-filter-block',
+		'#third-filter1',
+		'#third-filter2',
 	);
 
 	/* const stack = swing.Stack({
@@ -37,8 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let monthValue;
 
 	$question1.querySelectorAll('.quiz-month').forEach(($month) => {
-		$month.addEventListener('click', (e) => {
-			e.preventDefault();
+		$month.addEventListener('click', () => {
 			monthValue = $month.dataset.id;
 			$question1.classList.add('animate__fadeOut');
 			const handleAnimationEnd = () => {
@@ -47,7 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				show($question2);
 			};
 			$question1.addEventListener('animationend', handleAnimationEnd);
+			$selectMonth.value = monthValue;
 			window.scrollTo({ top: 0, behavior: 'smooth' });
+			setTimeout(() => { $month.blur(); }, 3000); // ёбанный айфон!
 		});
 	});
 
@@ -59,8 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let placesLoaded = false;
 
 	document.querySelectorAll('#questions .card').forEach(($card) => {
-		$card.addEventListener('click', (e) => {
-			e.preventDefault();
+		$card.addEventListener('click', () => {
 			if (placesLoaded) return;
 			const answerId = parseInt($card.dataset.id);
 			if (answerId === 1 || answerId === 2) {
@@ -68,8 +74,20 @@ document.addEventListener('DOMContentLoaded', () => {
 				const handleAnimationEnd = () => {
 					$question2.removeEventListener('animationend', handleAnimationEnd);
 					hide($question2);
-					if (answerId === 1) show($question31);
-					else show($question32);
+					if (answerId === 1) {
+						show($question31);
+						$secondFilter2.classList.remove('active');
+						$secondFilter1.classList.add('active');
+						$thirdFilter1.innerText = 'Горы и водопады';
+						$thirdFilter2.innerText = 'Океан и море';
+					}
+					else {
+						show($question32);
+						$secondFilter1.classList.remove('active');
+						$secondFilter2.classList.add('active');
+						$thirdFilter1.innerText = 'Старинные';
+						$thirdFilter2.innerText = 'Современные';
+					}
 				};
 				$question2.addEventListener('animationend', handleAnimationEnd);
 				question2 = answerId;
@@ -86,7 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
 				$question31.addEventListener('animationend', handleAnimationEnd);
 				$question32.addEventListener('animationend', handleAnimationEnd);
 
-				if (answerId === 3 || answerId === 5) question3 = 1; else question3 = 2;
+				if (answerId === 3 || answerId === 5) {
+					question3 = 1;
+					$thirdFilter2.classList.remove('active');
+					$thirdFilter1.classList.add('active');
+				}
+				else {
+					question3 = 2;
+					$thirdFilter1.classList.remove('active');
+					$thirdFilter2.classList.add('active');
+				}
 
 				getPlaces();
 				placesLoaded = true;
@@ -96,46 +123,78 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
+	let requestTimeoutStarted = false;
+
 	$favoritesBtn.addEventListener('click', () => {
 		isFavorites = true;
-		hide($favoritesBtn, $noPlacesResults);
+		hide($favoritesBtn, $noPlacesResults, $filterForm);
 		show($quizListBtn);
+		$cardsArea.style.marginTop = '65px';
 		$placesCards.innerHTML = '';
 		$placesCards.classList.add('favorites');
-		getItems('favorites.get', (response) => {
-			// console.log(response);
-			if (response.items && response.items.length) {
-				hide($noFavoritesResults);
-				renderQuizList(response.items);
+		const requestTimeout = () => {
+			if ( ! placesLoaded) {
+				getItems('favorites.get', (response) => {
+					// console.log(response);
+					if (response.items && response.items.length) {
+						hide($noFavoritesResults);
+						renderQuizList(response.items);
+					}
+					else show($noFavoritesResults);
+				}, {
+					url: window.location.href,
+				});
+				placesLoaded = true;
+				setTimeout(() => { placesLoaded = false; }, 2000);
 			}
-			else show($noFavoritesResults);
-		}, {
-			url: window.location.href,
-		});
+			else if ( ! requestTimeoutStarted) {
+				requestTimeoutStarted = true;
+				setTimeout(() => {
+					requestTimeoutStarted = false;
+					requestTimeout();
+				}, 2000);
+			}
+		};
+		requestTimeout();
 	});
 
 	const getPlaces = () => {
 		isFavorites = false;
 		$placesCards.innerHTML = '';
 		$placesCards.classList.remove('favorites');
-		getItems('places.get', (response) => {
-			// console.log(response);
-			if (response.items && response.items.length) {
-				hide($noPlacesResults);
-				renderQuizList(response.items);
+		const requestTimeout = () => {
+			if ( ! placesLoaded) {
+				getItems('places.get', (response) => {
+					// console.log(response);
+					if (response.items && response.items.length) {
+						hide($noPlacesResults);
+						renderQuizList(response.items);
+					}
+					else show($noPlacesResults);
+				}, {
+					month: monthValue,
+					question2: question2,
+					question3: question3,
+					url: window.location.href,
+				});
+				placesLoaded = true;
+				setTimeout(() => { placesLoaded = false; }, 2000);
 			}
-			else show($noPlacesResults);
-		}, {
-			month: monthValue,
-			question2: question2,
-			question3: question3,
-			url: window.location.href,
-		});
+			else if ( ! requestTimeoutStarted) {
+				requestTimeoutStarted = true;
+				setTimeout(() => {
+					requestTimeoutStarted = false;
+					requestTimeout();
+				}, 2000);
+			}
+		};
+		requestTimeout();
 	};
 
 	$quizListBtn.addEventListener('click', () => {
 		hide($quizListBtn, $noFavoritesResults);
-		show($favoritesBtn);
+		show($favoritesBtn, $filterForm);
+		$cardsArea.style.marginTop = null;
 		getPlaces();
 	});
 
@@ -159,10 +218,11 @@ document.addEventListener('DOMContentLoaded', () => {
 				$question2.classList.remove('animate__fadeOut');
 				$question31.classList.remove('animate__fadeOut');
 				$question32.classList.remove('animate__fadeOut');
-				show($question1);
-				hide($resultScreen, $cardsArea); // $stackCardsArea
+				show($question1, $quizListBtn, $filterForm);
+				hide($favoritesBtn, $resultScreen, $cardsArea); // $stackCardsArea
 				isFavorites = false;
 				$placesCards.classList.remove('favorites');
+				$cardsArea.style.marginTop = null;
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			}
 		});
@@ -224,17 +284,22 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 	/* end only web, not mVK */
+	$lightgallery.addEventListener('onBeforeOpen', () => {
+		document.querySelector('html').style.overflowY = 'hidden';
+	});
 	$lightgallery.addEventListener('onCloseAfter', () => {
 		window.lgData[$lightgallery.getAttribute('lg-uid')].destroy(true);
 		lightgalleryOptions.dynamicEl = [];
+		document.querySelector('html').style.overflowY = null;
 	});
 	const lightgalleryOptions = {
 		hideBarsDelay: 1000,
 		getCaptionFromTitleOrAlt: false,
+		preload: 3,
 		showAfterLoad: false,
 		download: false,
 		actualSize: false,
-		autoplay: true,
+		// autoplay: true,
 		pause: 2000,
 		dynamic: true,
 		dynamicEl: [],
@@ -429,6 +494,21 @@ document.addEventListener('DOMContentLoaded', () => {
 		else $prevMonth.setAttribute('disabled', '');
 		if ($selectMonth.selectedIndex < 11) $nextMonth.removeAttribute('disabled');
 		else $nextMonth.setAttribute('disabled', '');
+		if ( ! placesLoaded) {
+			if (monthValue !== $selectMonth.value) {
+				monthValue = $selectMonth.value;
+				getPlaces();
+			}
+			placesLoaded = true;
+			setTimeout(() => { placesLoaded = false; }, 2000);
+		}
+		else if ( ! requestTimeoutStarted) {
+			requestTimeoutStarted = true;
+			setTimeout(() => {
+				requestTimeoutStarted = false;
+				trigger($selectMonth, 'change');
+			}, 2000);
+		}
 	});
 
 	const trigger = (element, event) => {
@@ -448,6 +528,120 @@ document.addEventListener('DOMContentLoaded', () => {
 		if ($selectMonth.selectedIndex < 11) {
 			$selectMonth.selectedIndex++;
 			trigger($selectMonth, 'change');
+		}
+	});
+
+	$secondFilter1.addEventListener('click', () => {
+		if ( ! $secondFilter1.classList.contains('active')) {
+			$secondFilter2.classList.remove('active');
+			$secondFilter1.classList.add('active');
+			$thirdFilterBlock.classList.add('animate__flip');
+			const handleAnimationEnd = () => {
+				$thirdFilterBlock.removeEventListener('animationend', handleAnimationEnd);
+				$thirdFilterBlock.classList.remove('animate__flip');
+			};
+			$thirdFilterBlock.addEventListener('animationend', handleAnimationEnd);
+			$thirdFilter1.innerText = 'Горы и водопады';
+			$thirdFilter2.innerText = 'Океан и море';
+			const requestTimeout = () => {
+				if ( ! placesLoaded) {
+					if (question2 !== 1) {
+						question2 = 1;
+						getPlaces();
+					}
+					placesLoaded = true;
+					setTimeout(() => { placesLoaded = false; }, 2000);
+				}
+				else if ( ! requestTimeoutStarted) {
+					requestTimeoutStarted = true;
+					setTimeout(() => {
+						requestTimeoutStarted = false;
+						requestTimeout();
+					}, 2000);
+				}
+			};
+			requestTimeout();
+		}
+	});
+	$secondFilter2.addEventListener('click', () => {
+		if ( ! $secondFilter2.classList.contains('active')) {
+			$secondFilter1.classList.remove('active');
+			$secondFilter2.classList.add('active');
+			$thirdFilterBlock.classList.add('animate__flip');
+			const handleAnimationEnd = () => {
+				$thirdFilterBlock.removeEventListener('animationend', handleAnimationEnd);
+				$thirdFilterBlock.classList.remove('animate__flip');
+			};
+			$thirdFilterBlock.addEventListener('animationend', handleAnimationEnd);
+			$thirdFilter1.innerText = 'Старинные';
+			$thirdFilter2.innerText = 'Современные';
+			const requestTimeout = () => {
+				if ( ! placesLoaded) {
+					if (question2 !== 2) {
+						question2 = 2;
+						getPlaces();
+					}
+					placesLoaded = true;
+					setTimeout(() => { placesLoaded = false; }, 2000);
+				}
+				else if ( ! requestTimeoutStarted) {
+					requestTimeoutStarted = true;
+					setTimeout(() => {
+						requestTimeoutStarted = false;
+						requestTimeout();
+					}, 2000);
+				}
+			};
+			requestTimeout();
+		}
+	});
+
+	$thirdFilter1.addEventListener('click', () => {
+		if ( ! $thirdFilter1.classList.contains('active')) {
+			$thirdFilter2.classList.remove('active');
+			$thirdFilter1.classList.add('active');
+			const requestTimeout = () => {
+				if ( ! placesLoaded) {
+					if (question3 !== 1) {
+						question3 = 1;
+						getPlaces();
+					}
+					placesLoaded = true;
+					setTimeout(() => { placesLoaded = false; }, 2000);
+				}
+				else if ( ! requestTimeoutStarted) {
+					requestTimeoutStarted = true;
+					setTimeout(() => {
+						requestTimeoutStarted = false;
+						requestTimeout();
+					}, 2000);
+				}
+			};
+			requestTimeout();
+		}
+	});
+	$thirdFilter2.addEventListener('click', () => {
+		if ( ! $thirdFilter2.classList.contains('active')) {
+			$thirdFilter1.classList.remove('active');
+			$thirdFilter2.classList.add('active');
+			const requestTimeout = () => {
+				if ( ! placesLoaded) {
+					if (question3 !== 2) {
+						question3 = 2;
+						getPlaces();
+					}
+					placesLoaded = true;
+					setTimeout(() => { placesLoaded = false; }, 2000);
+				}
+				else if ( ! requestTimeoutStarted) {
+					requestTimeoutStarted = true;
+					setTimeout(() => {
+						requestTimeoutStarted = false;
+						requestTimeout();
+					}, 2000);
+				}
+			};
+			requestTimeout();
 		}
 	});
 
