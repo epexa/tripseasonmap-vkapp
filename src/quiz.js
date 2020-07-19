@@ -245,36 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	setCardsWidth();
 	/* end fix card width */
 
-	/* new PhotoSwipe(document.querySelector('.pswp'), PhotoSwipeUI_Default, [
-		{
-			src: 'https://placekitten.com/1200/900',
-			w: 1200,
-			h: 900,
-		},
-		{
-			src: 'https://placekitten.com/600/400',
-			w: 600,
-			h: 400,
-		},
-	], {
-		history: false,
-		captionEl: false,
-		fullscreenEl: false,
-		zoomEl: false,
-		shareButtons: false,
-		closeElClasses: [ 'item', 'ui', 'top-bar' ],
-		indexIndicatorSep: ' из ',
-		getDoubleTapZoom: (isMouseClick, item) => {
-			if (isMouseClick) {
-				// pswp.next();
-				return 1;
-			}
-			else {
-				return item.initialZoomLevel < 0.7 ? 1 : 1.5;
-			}
-		},
-	}).init(); */
-
 	const $lightgallery = document.querySelector('#lightgallery');
 	/* start only web, not mVK */
 	const screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
