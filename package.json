@@ -6,20 +6,24 @@
   "author": "epexa",
   "license": "Proprietary",
   "private": true,
+  "config": {
+    "IP": "192.168.43.254",
+    "PORT": "80",
+    "DIST_FOLDER": "../vk-dist"
+  },
   "scripts": {
     "test": "eslint src/*.js",
-    "start": "npm test && node local-server.js",
+    "local-server": "IP=$npm_package_config_IP PORT=$npm_package_config_PORT node local-server.js",
+    "start": "npm test && npm run local-server",
     "build": "./build.sh",
-    "build-run": "npm run build && NODE_ENV=dist node local-server.js",
-    "deploy": "npm run build && vk-miniapps-deploy"
+    "dist-start": "npm run build && DIST_FOLDER=$npm_package_config_DIST npm run local-server",
+    "deploy": "npm run build && vk-miniapps-deploy",
+    "tunnel": "vk-tunnel NODE_TLS_REJECT_UNAUTHORIZED=0 --host=$npm_package_config_IP --port=$npm_package_config_PORT"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm test"
     }
-  },
-  "dependencies": {
-    "express": "^4.16.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -28,9 +32,11 @@
     "clean-css-cli": "^4.2.1",
     "eslint": "^5.15.3",
     "eslint-config-google": "^0.12.0",
+    "express": "^4.16.4",
     "html-minifier": "^3.5.21",
     "husky": "^2.3.0",
     "uglify-js": "^3.5.2",
-    "@vkontakte/vk-miniapps-deploy": "0.0.19"
+    "@vkontakte/vk-miniapps-deploy": "0.0.19",
+    "@vkontakte/vk-tunnel": "0.0.13"
   }
 }

@@ -1,6 +1,8 @@
-let platformId;
+const urlParams = new URLSearchParams(window.location.search);
 
-// const vkApiVersion = '5.120';
+const vkApiVersion = '5.120';
+
+let platformId;
 
 vkBridge.send('VKWebAppInit');
 
@@ -8,6 +10,8 @@ vkBridge.send('VKWebAppGetClientVersion')
 		.then((data) => {
 			platformId = data.platform;
 		});
+
+/* const platformId = urlParams.get('vk_platform'); */
 
 const socketShowError = (errorMessage = null) => {
 	console.log(errorMessage);

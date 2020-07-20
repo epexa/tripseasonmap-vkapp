@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('fonts/icomoon.woff?3w5m4j') format('woff');
+    url('fonts/icomoon.woff?m7kus1') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -22,6 +22,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-users:before {
+  content: "\e907";
+}
 .icon-camera:before {
   content: "\e906";
 }

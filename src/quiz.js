@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}); */
 
+	let currentScreen = 'questions';
+
 	let monthValue;
 
 	$question1.querySelectorAll('.quiz-month').forEach(($month) => {
@@ -115,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					$thirdFilter2.classList.add('active');
 				}
 
+				currentScreen = 'main';
 				getPlaces();
 				placesLoaded = true;
 				setTimeout(() => { placesLoaded = false; }, 2000);
@@ -127,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	$favoritesBtn.addEventListener('click', () => {
 		isFavorites = true;
+		currentScreen = 'favorites';
 		hide($favoritesBtn, $noPlacesResults, $filterForm);
 		show($quizListBtn);
 		$cardsArea.style.marginTop = '65px';
@@ -192,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	};
 
 	$quizListBtn.addEventListener('click', () => {
+		currentScreen = 'main';
 		hide($quizListBtn, $noFavoritesResults);
 		show($favoritesBtn, $filterForm);
 		$cardsArea.style.marginTop = null;
@@ -213,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			showLoaderOnConfirm: true,
 		}).then((result) => {
 			if (result.value) {
+				currentScreen = 'questions';
 				monthValue = null;
 				$question1.classList.remove('animate__fadeOut');
 				$question2.classList.remove('animate__fadeOut');
@@ -289,6 +295,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 			lightGallery($lightgallery, lightgalleryOptions);
 		}
+	};
+
+	const thanksMessage = () => {
+		Swal.fire({
+			title: 'Спасибо!',
+			icon: 'success',
+			showCloseButton: true,
+			toast: true,
+			showConfirmButton: false,
+			timer: 2000,
+			timerProgressBar: true,
+		});
 	};
 
 	const renderQuizList = (response) => {
@@ -391,16 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					/* lat: 23,
 					long: 42, */
 				}).then(() => {
-					Swal.fire({
-						title: 'Спасибо!',
-						icon: 'success',
-						showCloseButton: true,
-						toast: true,
-						showConfirmButton: false,
-						position: 'center',
-						timer: 2000,
-						timerProgressBar: true,
-					});
+					thanksMessage();
 				});
 			});
 			if (isFavorites) show($placeShareBtn);
@@ -615,21 +624,133 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
-	/* vkBridge.send('VKWebAppGetAuthToken', { app_id: 7535937, scope: 'friends' })
-			.then((data) => {
-				console.log(data);
-			}); */
+	const showVkError = (error) => {
+		console.log(error);
+		const swalParams = {
+			title: 'Упс... Попробуйте ещё раз!',
+			html: error.error_data.error_reason.error_msg,
+			icon: 'error',
+			showCloseButton: true,
+			timer: 5000,
+			timerProgressBar: true,
+			customClass: {
+				confirmButton: 'btn btn-success btn-lg',
+			},
+			confirmButtonText: 'Понятно...',
+		};
+		if (error.error_data.error_code === 4) {
+			swalParams.title = 'Хм... Нужен доступ!';
+			swalParams.html = 'Чтобы получить необходимые данные, нужно разрешить доступ!';
+			swalParams.icon = 'warning';
+		}
+		Swal.fire(swalParams);
+	};
 
-	/* vkBridge.send('VKWebAppCallAPIMethod', {
-		method: 'friends.getAppUsers',
-		params: {
-			v: vkApiVersion,
-			access_token: '34e188700473c5ff44a6181a52113f3abfbd19e5687951ad8740d7c7f1815f0a8033499b7e0e0a9e07309',
-		},
-	})
-			.then((data) => {
-				console.log(data);
-			}); */
+	if (urlParams.get('vk_are_notifications_enabled') === '0' && ! localStorage.notificationsAsk) {
+		const handleScroll = () => {
+			if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+				// console.log('bottom', currentScreen, urlParams.get('vk_are_notifications_enabled') === '0');
+				if (currentScreen === 'main') {
+					window.removeEventListener('scroll', handleScroll);
+					Swal.fire({
+						html: 'Мы постоянно обновляем приложение и добавляем новые места! Разрешите уведомления и мы будем вам сообщать об обновлениях и о наших новостях раз в неделю!',
+						confirmButtonText: 'Конечно!',
+						icon: 'warning',
+						customClass: {
+							confirmButton: 'btn btn-success btn-lg',
+						},
+					}).then(() => {
+						const accessNotifications = () => {
+							vkBridge.send('VKWebAppAllowNotifications')
+									.then((data) => {
+										console.log(data);
+										socket.emit('vk_user.set', {
+											notifications: 1,
+										});
+										thanksMessage();
+										delete localStorage.notificationsAsk;
+									})
+									.catch((error) => {
+										console.log(error);
+										if (error.error_data.error_code === 4) {
+											Swal.fire({
+												title: 'Вы уверены?',
+												html: 'Очень жаль... Вы не разрешили уведомления :(',
+												icon: 'question',
+												showCancelButton: true,
+												customClass: {
+													actions: 'btn-group',
+													confirmButton: 'btn btn-success btn-lg',
+													cancelButton: 'btn btn-outline-danger btn-lg',
+												},
+												showCloseButton: true,
+												showLoaderOnConfirm: true,
+												confirmButtonText: 'Я передумал, разрешаю!',
+												cancelButtonText: 'Да',
+											}).then((result) => {
+												if (result.value) accessNotifications();
+												else localStorage.notificationsAsk = 0;
+											});
+										}
+										else showVkError(error);
+									});
+						};
+						accessNotifications();
+					});
+				}
+			};
+		};
+		window.addEventListener('scroll', handleScroll);
+	}
+
+	/* getAccessToken = (scope, callback) => {
+		vkBridge.send('VKWebAppGetAuthToken', { app_id: 7535937, scope: scope })
+				.then((data) => {
+					console.log(data);
+					callback(data, null);
+				})
+				.catch((error) => {
+					showVkError(error);
+					callback(null, error);
+				});
+	};
+
+	const getAppUsers = (callback) => {
+		if (localStorage.access_token_friends) {
+			vkBridge.send('VKWebAppCallAPIMethod', {
+				method: 'friends.getAppUsers',
+				params: {
+					v: vkApiVersion,
+					access_token: localStorage.access_token_friends,
+				},
+			})
+					.then((data) => {
+						callback(data, null);
+					})
+					.catch((error) => {
+						delete localStorage.access_token_friends;
+						if (error.error_data.error_reason.error_code === 5) getAppUsers(callback);
+						else {
+							showVkError(error);
+							callback(null, error);
+						}
+					});
+		}
+		else {
+			console.log('need access_token');
+			getAccessToken('friends', (accessToken, err) => {
+				if ( ! err) {
+					console.log(accessToken);
+					localStorage.access_token_friends = accessToken.access_token;
+					getAppUsers(callback);
+				}
+			});
+		}
+	};
+
+	getAppUsers((result, error) => {
+		console.log(result, error);
+	}); */
 
 	/* const getLastStackCard = () => {
 		let lastStackCard;
