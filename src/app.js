@@ -60,10 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+	if (localStorage.runs) localStorage.runs++;
+	else localStorage.runs = 1;
+
 	if ( ! localStorage.welcome) {
 		localStorage.welcome = 1;
 		SwalWelcome = Swal.mixin({
-			width: '50%',
 			imageUrl: 'graphics/logo.svg',
 			customClass: {
 				image: 'w-50',
@@ -87,70 +89,71 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		});
 	}
-	else show($quizPage);
-
-	if (localStorage.runs) {
-		localStorage.runs++;
-
+	else {
 		// console.log(urlParams.get('vk_is_favorite') === '0', localStorage.runs);
 		if (urlParams.get('vk_is_favorite') === '0' && localStorage.runs % 2 === 0) {
-			setTimeout(() => {
-				Swal.fire({
-					title: 'С возвращением!',
-					html: 'Вы можете добавить приложение в избранное, чтобы было легче его находить.',
-					icon: 'success',
-					showCancelButton: true,
-					customClass: {
-						actions: 'btn-group',
-						confirmButton: 'btn btn-success btn-lg',
-						cancelButton: 'btn btn-outline-danger btn-lg',
-					},
-					showCloseButton: true,
-					showLoaderOnConfirm: true,
-					confirmButtonText: 'Хорошая идея!',
-					cancelButtonText: 'Может позже...',
-				}).then((result) => {
-					if (result.value) {
-						const accessFavorites = () => {
-							vkBridge.send('VKWebAppAddToFavorites')
-									.then((data) => {
-										console.log(data);
-										socket.emit('vk-user.set', {
-											favorites: 1,
-										});
-										thanksMessage();
-									})
-									.catch((error) => {
-										console.log(error);
-										if (error.error_data.error_code === 4) {
-											Swal.fire({
-												title: 'Вы уверены?',
-												html: 'Очень жаль... Вы не разрешили добавить приложение в избранное :(',
-												icon: 'question',
-												showCancelButton: true,
-												customClass: {
-													actions: 'btn-group',
-													confirmButton: 'btn btn-success btn-lg',
-													cancelButton: 'btn btn-outline-danger btn-lg',
-												},
-												showCloseButton: true,
-												showLoaderOnConfirm: true,
-												confirmButtonText: 'Я передумал, разрешаю!',
-												cancelButtonText: 'Да',
-											}).then((result) => {
-												if (result.value) accessFavorites();
-											});
-										}
-										else showVkError(error);
+			Swal.fire({
+				title: 'С возвращением!',
+				html: 'Вы можете добавить приложение в избранное, чтобы было легче его находить.',
+				icon: 'success',
+				showCancelButton: true,
+				customClass: {
+					actions: 'btn-group',
+					confirmButton: 'btn btn-success btn-lg',
+					cancelButton: 'btn btn-outline-danger btn-lg',
+					popup: 'animate__animated animate__fadeIn', // animate__zoomIn
+				},
+				showCloseButton: true,
+				showLoaderOnConfirm: true,
+				confirmButtonText: 'Хорошая идея!',
+				cancelButtonText: 'Позже',
+				grow: 'fullscreen',
+				backdrop: '#fff',
+				showCloseButton: false,
+			}).then((result) => {
+				if (result.value) {
+					const accessFavorites = () => {
+						vkBridge.send('VKWebAppAddToFavorites')
+								.then((data) => {
+									console.log(data);
+									socket.emit('vk-user.set', {
+										favorites: 1,
 									});
-						};
-						accessFavorites();
-					}
-				});
-			}, 4000);
+									thanksMessage();
+									show($quizPage);
+								})
+								.catch((error) => {
+									console.log(error);
+									if (error.error_data.error_code === 4) {
+										Swal.fire({
+											title: 'Вы уверены?',
+											html: 'Очень жаль... Вы не разрешили добавить приложение в избранное :(',
+											icon: 'question',
+											showCancelButton: true,
+											customClass: {
+												actions: 'btn-group',
+												confirmButton: 'btn btn-success btn-lg',
+												cancelButton: 'btn btn-outline-danger btn-lg',
+											},
+											showCloseButton: true,
+											showLoaderOnConfirm: true,
+											confirmButtonText: 'Я передумал, разрешаю!',
+											cancelButtonText: 'Да',
+										}).then((result) => {
+											if (result.value) accessFavorites();
+											else show($quizPage);
+										});
+									}
+									else showVkError(error);
+								});
+					};
+					accessFavorites();
+				}
+				else setTimeout(() => { show($quizPage); }, 1000); // ёбанный баг на айфоне!
+			});
 		}
+		else show($quizPage);
 	}
-	else localStorage.runs = 1;
 
 	// TODO: find another fix ios viewport
 	/* start fix ios viewport */
@@ -212,7 +215,7 @@ const thanksMessage = () => {
 		showCloseButton: true,
 		toast: true,
 		showConfirmButton: false,
-		timer: 2000,
+		timer: 4000,
 		timerProgressBar: true,
 	});
 };
