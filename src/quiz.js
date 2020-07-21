@@ -297,18 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	};
 
-	const thanksMessage = () => {
-		Swal.fire({
-			title: 'Спасибо!',
-			icon: 'success',
-			showCloseButton: true,
-			toast: true,
-			showConfirmButton: false,
-			timer: 2000,
-			timerProgressBar: true,
-		});
-	};
-
 	const renderQuizList = (response) => {
 		for (const place of response) {
 			const $newPlaceCard = $placeCardTemplate.cloneNode(true);
@@ -624,28 +612,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
-	const showVkError = (error) => {
-		console.log(error);
-		const swalParams = {
-			title: 'Упс... Попробуйте ещё раз!',
-			html: error.error_data.error_reason.error_msg,
-			icon: 'error',
-			showCloseButton: true,
-			timer: 5000,
-			timerProgressBar: true,
-			customClass: {
-				confirmButton: 'btn btn-success btn-lg',
-			},
-			confirmButtonText: 'Понятно...',
-		};
-		if (error.error_data.error_code === 4) {
-			swalParams.title = 'Хм... Нужен доступ!';
-			swalParams.html = 'Чтобы получить необходимые данные, нужно разрешить доступ!';
-			swalParams.icon = 'warning';
-		}
-		Swal.fire(swalParams);
-	};
-
 	if (urlParams.get('vk_are_notifications_enabled') === '0' && ! localStorage.notificationsAsk) {
 		const handleScroll = () => {
 			if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
@@ -664,7 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
 							vkBridge.send('VKWebAppAllowNotifications')
 									.then((data) => {
 										console.log(data);
-										socket.emit('vk_user.set', {
+										socket.emit('vk-user.set', {
 											notifications: 1,
 										});
 										thanksMessage();
