@@ -2,6 +2,7 @@ const htmlFiles = [
 	'header',
 	'main',
 	'quiz',
+	'places',
 	'loading',
 	'footer',
 ];

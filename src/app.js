@@ -1,5 +1,4 @@
 const urlParams = new URLSearchParams(window.location.search);
-
 const vkApiVersion = '5.120';
 
 let platformId;
@@ -16,7 +15,6 @@ vkBridge.send('VKWebAppGetClientVersion')
 const socketShowError = (errorMessage = null) => {
 	console.log(errorMessage);
 };
-
 // const socket = io.connect('ws://127.0.0.1:8888', {
 const socket = io.connect('wss://api.tripseasonmap.com', {
 	reconnection: true,
@@ -49,11 +47,26 @@ socket.on('error', (err) => {
 	});
 });
 
+let currentScreen = 'questions'; /* eslint prefer-const: 0 */
+let monthValue;
+let question2;
+let question3;
+
 document.addEventListener('DOMContentLoaded', () => {
 
 	initHtmlElements(
 		'#welcome',
 		'#quiz-page',
+		'#quiz-list-btn',
+		'#favorites-btn',
+		'#select-month',
+		'#prev-month',
+		'#next-month',
+		'#second-filter1',
+		'#second-filter2',
+		'#third-filter-block',
+		'#third-filter1',
+		'#third-filter2',
 	);
 
 });
@@ -164,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					const styleSheet = document.createElement('style');
 					styleSheet.type = 'text/css';
 					styleSheet.innerText = `
-						#question1, #question2, #question31, #question32, #result-screen, .fixed-top {
+						#quiz-page, #result-screen, .fixed-top {
 							/* Высота статус-бара в iOS 10 */
 							padding-top: 20px !important;
 

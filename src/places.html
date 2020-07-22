@@ -1,0 +1,146 @@
+<div class="d-none" id="result-screen">
+
+	<div class="row fixed-top py-2 animate__animated animate__fadeInDown">
+		<div class="text-center">
+			<button type="button" class="btn btn-outline-secondary btn-circle ml-5" id="quiz-restart"><i class="icon icon-redo"></i></button>
+			<button type="button" class="btn btn-outline-warning btn-circle ml-5" id="favorites-btn"><i class="icon icon-heart"></i></button>
+			<button type="button" class="btn btn-outline-info btn-circle ml-5 d-none" id="quiz-list-btn"><i class="icon icon-align-left"></i></button>
+			<!-- <button type="button" class="btn btn-outline-info btn-circle ml-5" id="friends-btn"><i class="icon icon-users"></i></button> -->
+		</div>
+	</div>
+
+	<form class="container-fluid animate__animated animate__fadeInDown" id="filter-form">
+		<div class="form-group mt-2">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<button class="btn btn-outline-success" type="button" id="prev-month" disabled><i class="icon icon-arrow-left"></i></button>
+				</div>
+				<select class="form-control custom-select" id="select-month" name="month">
+					<option value="1">Январь</option>
+					<option value="2">Февраль</option>
+					<option value="3">Март</option>
+					<option value="4">Апрель</option>
+					<option value="5">Май</option>
+					<option value="6">Июнь</option>
+					<option value="7">Июль</option>
+					<option value="8">Август</option>
+					<option value="9">Сентябрь</option>
+					<option value="10">Октябрь</option>
+					<option value="11">Ноябрь</option>
+					<option value="12">Декабрь</option>
+				</select>
+				<div class="input-group-append">
+					<button class="btn btn-outline-success" type="button" id="next-month"><i class="icon icon-arrow-right"></i></button>
+				</div>
+			</div>
+		</div>
+		<div class="form-group mt-2">
+			<div class="btn-group btn-block" role="group">
+				<button type="button" class="btn btn-outline-success active" id="second-filter1">Природа</button>
+				<button type="button" class="btn btn-outline-success" id="second-filter2">Город</button>
+			</div>
+		</div>
+		<div class="form-group mt-2">
+			<div class="btn-group btn-block animate__animated" role="group" id="third-filter-block">
+				<button type="button" class="btn btn-outline-success" id="third-filter1">Горы и водопады</button>
+				<button type="button" class="btn btn-outline-success active" id="third-filter2">Океан и море</button>
+			</div>
+		</div>
+	</form>
+
+	<!--
+		https://getbootstrap.com/docs/4.5/components/card
+		https://getbootstrap.com/docs/4.5/utilities/stretched-link
+	-->
+
+	<div class="d-none" id="cards-area">
+
+		<div class="card mb-4 d-none animate__animated animate__fadeInDown" id="place-card-template">
+			<picture>
+				<source type="image/webp" srcset="graphics/question-2-1.webp">
+				<img class="card-img-top" src="graphics/question-2-1.jpg">
+			</picture>
+			<div class="card-img-overlay">
+				<div>
+					<p class="h3 font-weight-bold text-white text-backdrop mb-2 country">Тайланд</p>
+					<button type="button" class="btn btn-light btn-circle btn-circle-lg float-right text-secondary place-like animate__animated"><i class="icon icon-heart"></i></button>
+				</div>
+				<div class="mb-2">
+					<p class="h4 font-weight-bold text-white text-backdrop mb-2 place">Пхукет</p>
+					<button type="button" class="btn btn-light btn-circle btn-circle-lg float-right text-info place-share d-none"><i class="icon icon-share"></i></button>
+				</div>
+				<div class="place-description">
+					<p class="h5 text-white text-backdrop description">Тут самые лучшие пляжи в Азии, отдых на которых предлагает мягкую погоду и теплую температуру. Прозрачная голубая вода и зеленые склоны гор прекрасно подходят для отдыха.</p>
+				</div>
+				<div>
+					<p class="h4 font-weight-bold text-white text-backdrop mb-2 month d-none">В августе</p>
+				</div>
+				<div class="place-season">
+					<p class="h5 text-backdrop season">Сухой сезон. Это наиболее благоприятное время для отдыха.</p>
+				</div>
+			</div>
+			<div class="card-footer">
+				<div class="btn-group btn-block" role="group">
+					<a class="btn btn-outline-danger btn-lg video" target="_blank"><i class="icon icon-play"></i> Видеообзор</a>
+					<button class="btn btn-outline-warning btn-lg photos"><i class="icon icon-camera"></i> Фотографии</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- container col-12 col-lg-6 -->
+		<div id="places-cards">
+		</div>
+
+		<div class="container">
+			<div class="alert alert-info mt-5 d-none" id="no-places-results">
+				<h4 class="alert-heading">Упс...</h4>
+				<p>К сожалению с такими критериями в нашей базе не нашлось места для путешествия.</p>
+				<hr>
+				<p class="mb-0">Пожалуйста, начните сначала с другими критериями!</p>
+			</div>
+
+			<div class="alert alert-info mt-5 d-none" id="no-favorites-results">
+				<h4 class="alert-heading">Пусто...</h4>
+				<p>Список избраных мест для путешествия пока пуст.</p>
+				<hr>
+				<p class="mb-0">Пожалуйста, выберите места которые вам нравятся!</p>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- <div class="d-none" id="stack-cards-area">
+
+		<div class="card in-deck d-none" id="stack-place-card-template">
+			<img class="card-img-top mb-2" src="places/1/1.webp">
+			<div class="card-img-overlay">
+				<div>
+					<p class="h3 font-weight-bold text-white text-backdrop mb-2 country">Тайланд</p>
+				</div>
+				<div>
+					<p class="h4 font-weight-bold text-white text-backdrop mb-2 place">Пхукет</p>
+				</div>
+				<div class="stack-description">
+					<p class="h5 text-white text-backdrop description">Тут самые лучшие пляжи в Азии, отдых на которых предлагает мягкую погоду и теплую температуру. Прозрачная голубая вода и зеленые склоны гор прекрасно подходят для отдыха.</p>
+				</div>
+				<div class="stack-season">
+					<p class="h5 text-success text-backdrop season">Сухой сезон. Это наиболее благоприятное время для отдыха.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="stack my-3" id="stack-places-cards">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="container text-center">
+				<button type="button" class="btn btn-outline-danger btn-circle btn-circle-lg mr-4" id="stack-dislike"><i class="icon icon-cross"></i></button>
+				<button type="button" class="btn btn-outline-success btn-circle btn-circle-lg ml-4" id="stack-like"><i class="icon icon-heart"></i></button>
+			</div>
+		</div>
+
+	</div> -->
+
+</div>

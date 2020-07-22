@@ -12,6 +12,7 @@ babel \
 src/utils.js \
 src/app.js \
 src/quiz.js \
+src/places.js \
 -o $DIST_FOLDER/app.js &&
 
 uglifyjs \
@@ -30,6 +31,7 @@ html-minifier --collapse-whitespace --remove-comments \
 src/header.html \
 src/main.html \
 src/quiz.html \
+src/places.html \
 src/loading.html \
 src/footer.html \
 -o $DIST_FOLDER/index.html &&

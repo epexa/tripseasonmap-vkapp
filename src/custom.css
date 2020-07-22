@@ -297,6 +297,12 @@ select {
   height: calc(1.5em + 0.75rem + 2px);
 }
 
+.animate__animated.animate__delay-0_5s {
+  -webkit-animation-delay: calc(1s * 0.5);
+  animation-delay: calc(1s * 0.5);
+  -webkit-animation-delay: calc(var(--animate-delay) * 0.5);
+  animation-delay: calc(var(--animate-delay) * 0.5);
+}
 .animate__animated.animate__delay-1_5s {
   -webkit-animation-delay: calc(1s * 1.5);
   animation-delay: calc(1s * 1.5);
@@ -310,13 +316,13 @@ select {
   animation-delay: calc(var(--animate-delay) * 2.5);
 }
 
-#questions .card {
+#quiz-page .card {
   cursor: pointer;
 }
-#questions .card-body {
+#quiz-page .card-body {
   padding-bottom: 0;
 }
-#questions .card-img-top {
+#quiz-page .card-img-top {
   border-bottom-left-radius: calc(0.25rem - 1px);
   border-bottom-right-radius: calc(0.25rem - 1px);
 }
