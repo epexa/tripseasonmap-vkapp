@@ -5,6 +5,12 @@ let requestTimeoutStarted = false;
 document.addEventListener('DOMContentLoaded', () => {
 
 	initHtmlElements(
+		'#quiz-list-btn',
+		'#favorites-btn',
+		'#friends-btn',
+		'#prev-month',
+		'#next-month',
+		'#third-filter-block',
 		'#lightgallery',
 		'#place-card-template',
 		'#places-cards',
@@ -14,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		'#filter-form',
 		'#no-places-results',
 		'#no-favorites-results',
+		'#no-friends-results',
 	);
 
 	/* const stack = swing.Stack({
@@ -339,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		window.addEventListener('scroll', handleScroll);
 	}
 
-	/* getAccessToken = (scope, callback) => {
+	getAccessToken = (scope, callback) => {
 		vkBridge.send('VKWebAppGetAuthToken', { app_id: 7535937, scope: scope })
 				.then((data) => {
 					console.log(data);
@@ -386,7 +393,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	getAppUsers((result, error) => {
 		console.log(result, error);
-	}); */
+	});
+
+	$friendsBtn.addEventListener('click', () => {
+		isFavorites = true;
+		currentScreen = 'friends';
+		hide($favoritesBtn, $noPlacesResults, $filterForm);
+		show($quizListBtn);
+		$cardsArea.style.marginTop = '65px';
+		$placesCards.innerHTML = '';
+		$placesCards.classList.add('friends');
+		const requestTimeout = () => {
+			if ( ! placesLoaded) {
+				getItems('favorites.get', (response) => {
+					// console.log(response);
+					if (response.items && response.items.length) {
+						hide($noFriendsResults);
+						renderQuizList(response.items);
+					}
+					else show($noFriendsResults);
+				}, {
+					url: window.location.href,
+				});
+				placesLoaded = true;
+				setTimeout(() => { placesLoaded = false; }, 2000);
+			}
+			else if ( ! requestTimeoutStarted) {
+				requestTimeoutStarted = true;
+				setTimeout(() => {
+					requestTimeoutStarted = false;
+					requestTimeout();
+				}, 2000);
+			}
+		};
+		requestTimeout();
+	});
 
 	/* const getLastStackCard = () => {
 		let lastStackCard;

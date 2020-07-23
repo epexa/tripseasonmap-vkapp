@@ -57,11 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	initHtmlElements(
 		'#welcome',
 		'#quiz-page',
-		'#quiz-list-btn',
-		'#favorites-btn',
 		'#select-month',
-		'#prev-month',
-		'#next-month',
 		'#second-filter1',
 		'#second-filter2',
 		'#third-filter1',
