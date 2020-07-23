@@ -387,3 +387,18 @@ select {
   position: absolute;
   bottom: 10px;
 } */
+
+.swal2-quote {
+  cursor: pointer;
+  padding: 0;
+  width: 100%;
+}
+.swal2-quote .swal2-popup {
+  border-top: 1px solid #95a5a6;
+  border-radius: 0;
+  box-shadow: none;
+  padding-bottom: 2rem;
+}
+.swal2-quote .swal2-title {
+  text-align: left;
+}

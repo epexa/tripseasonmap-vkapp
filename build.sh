@@ -13,6 +13,7 @@ src/utils.js \
 src/app.js \
 src/quiz.js \
 src/places.js \
+src/quotes.js \
 -o $DIST_FOLDER/app.js &&
 
 uglifyjs \

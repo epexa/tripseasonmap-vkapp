@@ -640,3 +640,41 @@ const getPlaces = () => {
 	};
 	requestTimeout();
 };
+
+let swalQuote;
+
+const showQuote = () => {
+	const timer = 20000;
+	if ( ! localStorage.quote) localStorage.quote = 0;
+	const text = quotes[localStorage.quote];
+	if (quotes[parseInt(localStorage.quote) + 1]) localStorage.quote++; else localStorage.quote = 0;
+	if (swalQuote && Swal.isVisible()) {
+		swalQuote.update({ title: text });
+		const increaseTime = timer - Swal.getTimerLeft();
+		Swal.increaseTimer(increaseTime);
+	}
+	else {
+		swalQuote = Swal.fire({
+			title: text,
+			showCloseButton: true,
+			toast: true,
+			showConfirmButton: false,
+			timer: timer,
+			timerProgressBar: true,
+			position: 'bottom-start',
+			width: '100%',
+			customClass: {
+				container: 'swal2-quote',
+			},
+			showClass: {
+				popup: 'animate__animated animate__fadeInUp',
+			},
+			hideClass: {
+				popup: 'animate__animated animate__fadeOutDown',
+			},
+			onOpen: (toast) => {
+				toast.addEventListener('click', showQuote);
+			},
+		});
+	}
+};

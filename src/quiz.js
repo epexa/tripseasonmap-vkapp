@@ -179,6 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				getPlaces();
 				placesLoaded = true;
 				setTimeout(() => { placesLoaded = false; }, 2000);
+
+				setTimeout(() => { showQuote(); }, 10000);
 			}
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		});
