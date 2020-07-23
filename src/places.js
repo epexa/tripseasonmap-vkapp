@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (screenWidth > 0) {
 				const styleSheet = document.createElement('style');
 				styleSheet.type = 'text/css';
-				styleSheet.innerText = `#cards-area .card img { width: ${screenWidth}px !important; }`;
+				styleSheet.innerText = `#cards-area .card-img-top { width: ${screenWidth}px !important; }`;
 				document.head.appendChild(styleSheet);
 			}
 			else setCardsWidth();
@@ -429,6 +429,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		requestTimeout();
 	});
 
+	document.querySelector('.app-share').addEventListener('click', () => {
+		vkBridge.send('VKWebAppShare', {
+			link: 'https://vk.com/app7535937',
+		}).then(() => {
+			thanksMessage();
+		});
+	});
+
 	/* const getLastStackCard = () => {
 		let lastStackCard;
 		const $stackCards = $stackPlacesCards.querySelectorAll('.card.in-deck');
@@ -484,7 +492,7 @@ const renderQuizList = (response) => {
 		$newPlaceCard.removeAttribute('id');
 		$newPlaceCard.dataset.id = place.id;
 		$newPlaceCard.querySelector('source').srcset = `places/${place.id}/1.webp`;
-		$newPlaceCard.querySelector('img').src = `places/${place.id}/1.jpg`;
+		$newPlaceCard.querySelector('.card-img-top').src = `places/${place.id}/1.jpg`;
 		$newPlaceCard.querySelector('.country').innerText = place.country;
 		$newPlaceCard.querySelector('.place').innerText = place.name;
 		$newPlaceCard.querySelector('.description').innerText = place.description;

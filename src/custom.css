@@ -340,13 +340,13 @@ select {
   margin-top: 65px;
 }
 
-#places-cards .card img {
+#places-cards .card-img-top {
   object-fit: cover;
   transition: 0.5s;
   height: 450px;
   width: 100%;
 }
-#places-cards.favorites .card img {
+#places-cards.favorites .card-img-top {
   height: 560px;
 }
 #places-cards .card .text-success {
@@ -354,6 +354,10 @@ select {
 }
 #places-cards .card .text-warning {
   color: #ffe935 !important;
+}
+#places-cards .avatar {
+  background-color: #dee2e6;
+  padding: 0.1rem;
 }
 
 /* .stack {
