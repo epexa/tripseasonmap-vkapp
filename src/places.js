@@ -184,12 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		if ( ! $secondFilter1.classList.contains('active')) {
 			$secondFilter2.classList.remove('active');
 			$secondFilter1.classList.add('active');
-			$thirdFilterBlock.classList.add('animate__flip');
-			const handleAnimationEnd = () => {
-				$thirdFilterBlock.removeEventListener('animationend', handleAnimationEnd);
-				$thirdFilterBlock.classList.remove('animate__flip');
-			};
-			$thirdFilterBlock.addEventListener('animationend', handleAnimationEnd);
 			$thirdFilter1.innerText = 'Горы и водопады';
 			$thirdFilter2.innerText = 'Океан и море';
 			const requestTimeout = () => {
@@ -216,12 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		if ( ! $secondFilter2.classList.contains('active')) {
 			$secondFilter1.classList.remove('active');
 			$secondFilter2.classList.add('active');
-			$thirdFilterBlock.classList.add('animate__flip');
-			const handleAnimationEnd = () => {
-				$thirdFilterBlock.removeEventListener('animationend', handleAnimationEnd);
-				$thirdFilterBlock.classList.remove('animate__flip');
-			};
-			$thirdFilterBlock.addEventListener('animationend', handleAnimationEnd);
 			$thirdFilter1.innerText = 'Старинные';
 			$thirdFilter2.innerText = 'Современные';
 			const requestTimeout = () => {

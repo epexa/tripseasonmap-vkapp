@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		'#next-month',
 		'#second-filter1',
 		'#second-filter2',
-		'#third-filter-block',
 		'#third-filter1',
 		'#third-filter2',
 	);
