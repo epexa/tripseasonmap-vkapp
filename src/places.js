@@ -1,5 +1,6 @@
 let placesLoaded = false;
 let isFavorites = false;
+let isFriends = false;
 let requestTimeoutStarted = false;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -396,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 	$friendsBtn.addEventListener('click', () => {
-		isFavorites = true;
+		isFriends = true;
 		currentScreen = 'friends';
 		hide($favoritesBtn, $noPlacesResults, $filterForm);
 		show($quizListBtn);
@@ -495,8 +496,11 @@ const renderQuizList = (response) => {
 		$newPlaceCard.querySelector('.card-img-top').src = `places/${place.id}/1.jpg`;
 		$newPlaceCard.querySelector('.country').innerText = place.country;
 		$newPlaceCard.querySelector('.place').innerText = place.name;
-		$newPlaceCard.querySelector('.description').innerText = place.description;
-		$newPlaceCard.querySelector('.season').innerText = place.season_mini_description;
+		if ( ! isFriends) {
+			$newPlaceCard.querySelector('.description').innerText = place.description;
+			$newPlaceCard.querySelector('.season').innerText = place.season_mini_description;
+			show($newPlaceCard.querySelector('.place-description'), $newPlaceCard.querySelector('.place-season'));
+		}
 		let classList;
 		if (place.season === 1) classList = 'success'; else classList = 'warning';
 		$newPlaceCard.querySelector('.season').classList.add(`text-${classList}`);
@@ -553,7 +557,7 @@ const renderQuizList = (response) => {
 				$placeLikeBtn.classList.remove('text-secondary');
 				$placeLikeBtn.classList.add('text-danger');
 			}
-			if (isFavorites) {
+			if (isFavorites || isFriends) {
 				const $favoritesMonth = $newPlaceCard.querySelector('.month');
 				let monthText;
 				switch (place.favorites) {
