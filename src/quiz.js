@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			$quizMonthArea.addEventListener('animationend', handleAnimationEnd4);
 
 			$selectMonth.value = monthValue;
+			trigger($selectMonth, 'change');
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 			setTimeout(() => { $month.blur(); }, 3000); // ёбанный айфон!
 
@@ -84,6 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	$quizPage.querySelectorAll('.card').forEach(($card) => {
 		$card.addEventListener('click', () => {
 			if (placesLoaded) return;
+			placesLoaded = true;
+			setTimeout(() => { placesLoaded = false; }, 2000);
 			const answerId = parseInt($card.dataset.id);
 			if (answerId === 1 || answerId === 2) {
 				question2 = answerId;
@@ -177,8 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				currentScreen = 'main';
 				getPlaces();
-				placesLoaded = true;
-				setTimeout(() => { placesLoaded = false; }, 2000);
+				/* placesLoaded = true;
+				setTimeout(() => { placesLoaded = false; }, 2000); */
 
 				setTimeout(() => { showQuote(); }, 10000);
 			}

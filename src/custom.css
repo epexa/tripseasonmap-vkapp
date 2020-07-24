@@ -316,6 +316,79 @@ select {
   animation-delay: calc(var(--animate-delay) * 2.5);
 }
 
+html.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
+  overflow-y: hidden;
+}
+
+.btn-outline-success:focus,
+.btn-outline-success:not(:disabled):not(.disabled).active:focus,
+.btn-outline-info:focus,
+.btn-outline-info:not(:disabled):not(.disabled).active:focus,
+.btn-outline-warning:focus,
+.btn-outline-warning:not(:disabled):not(.disabled).active:focus,
+.btn-outline-danger:focus,
+.btn-outline-danger:not(:disabled):not(.disabled).active:focus,
+.btn-outline-secondary:focus,
+.btn-outline-secondary:not(:disabled):not(.disabled).active:focus,
+.btn-success:focus,
+.btn-success:not(:disabled):not(.disabled).active:focus,
+.btn-secondary:focus,
+.btn-secondary:not(:disabled):not(.disabled).active:focus,
+.btn-light:focus,
+.btn-light:not(:disabled):not(.disabled).active:focus
+  {
+  box-shadow: none;
+}
+.btn-success:focus {
+  background-color: #18BC9C;
+  border-color: #18BC9C;
+  color: #fff;
+}
+.btn-outline-success:focus {
+  background: #fff;
+  border-color: #18BC9C;
+  color: #18BC9C;
+}
+.btn-secondary:focus {
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
+  color: #000;
+}
+.btn-outline-secondary:focus {
+  background: #fff;
+  border-color: #95a5a6;
+  color: #95a5a6;
+}
+.btn-outline-info:focus {
+  background: #fff;
+  border-color: #3498DB;
+  color: #3498DB;
+}
+.btn-warning:focus {
+  color: #fff;
+  background-color: #F39C12;
+  border-color: #F39C12;
+}
+.btn-outline-warning:focus {
+  background: #fff;
+  border-color: #F39C12;
+  color: #F39C12;
+}
+.btn-danger:focus {
+  background-color: #E74C3C;
+  border-color: #E74C3C;
+  color: #fff;
+}
+.btn-outline-danger:focus {
+  background: #fff;
+  border-color: #E74C3C;
+  color: #E74C3C;
+}
+.btn-light:focus {
+  background-color: #ecf0f1;
+  border-color: #ecf0f1;
+}
+
 #quiz-page .card {
   cursor: pointer;
 }

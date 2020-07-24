@@ -2,6 +2,7 @@ Swal = Swal.mixin({
 	buttonsStyling: false,
 	confirmButtonText: 'Да',
 	cancelButtonText: 'Нет',
+	focusConfirm: false,
 });
 
 const camelCase = (str) => {

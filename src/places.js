@@ -84,6 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			},
 			showCloseButton: true,
 			showLoaderOnConfirm: true,
+			onOpen: (toast) => {
+				toast.querySelector('.swal2-confirm').blur();
+				toast.querySelector('.swal2-close').blur();
+			},
 		}).then((result) => {
 			if (result.value) {
 				currentScreen = 'questions';
@@ -159,12 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			}, 2000);
 		}
 	});
-
-	const trigger = (element, event) => {
-		const evt = document.createEvent('HTMLEvents');
-		evt.initEvent(event, true, true);
-		return ! element.dispatchEvent(evt);
-	};
 
 	$prevMonth.addEventListener('click', () => {
 		if ($selectMonth.selectedIndex > 0) {
@@ -295,6 +293,9 @@ document.addEventListener('DOMContentLoaded', () => {
 						customClass: {
 							confirmButton: 'btn btn-success btn-lg',
 						},
+						onOpen: (toast) => {
+							toast.querySelector('.swal2-confirm').blur();
+						},
 					}).then(() => {
 						const accessNotifications = () => {
 							vkBridge.send('VKWebAppAllowNotifications')
@@ -323,6 +324,10 @@ document.addEventListener('DOMContentLoaded', () => {
 												showLoaderOnConfirm: true,
 												confirmButtonText: 'Я передумал, разрешаю!',
 												cancelButtonText: 'Да',
+												onOpen: (toast) => {
+													toast.querySelector('.swal2-confirm').blur();
+													toast.querySelector('.swal2-close').blur();
+												},
 											}).then((result) => {
 												if (result.value) accessNotifications();
 												else localStorage.notificationsAsk = 0;
@@ -549,11 +554,14 @@ const renderQuizList = (response) => {
 				e.preventDefault();
 				localStorage.video = 1;
 				Swal.fire({
-					html: 'Вы будете перенаправлены в YouTube.<br>После просмотра видео, не забудьте вернуться и посмотреть другие места!',
+					html: 'Вы будете перенаправлены на YouTube.<br>После просмотра видео, не забудьте вернуться и посмотреть другие места!',
 					confirmButtonText: 'Конечно!',
 					icon: 'warning',
 					customClass: {
 						confirmButton: 'btn btn-success btn-lg',
+					},
+					onOpen: (toast) => {
+						toast.querySelector('.swal2-confirm').blur();
 					},
 				}).then(() => {
 					$videoBtn.click();

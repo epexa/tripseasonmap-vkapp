@@ -88,6 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			},
 			grow: 'fullscreen',
 			backdrop: '#fff',
+			onOpen: (toast) => {
+				toast.querySelector('.swal2-confirm').blur();
+			},
 		});
 		SwalWelcome.fire({
 			html: $welcome.innerHTML,
@@ -122,6 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				grow: 'fullscreen',
 				backdrop: '#fff',
 				showCloseButton: false,
+				onOpen: (toast) => {
+					toast.querySelector('.swal2-confirm').blur();
+					toast.querySelector('.swal2-close').blur();
+				},
 			}).then((result) => {
 				if (result.value) {
 					const accessFavorites = () => {
@@ -151,9 +158,13 @@ document.addEventListener('DOMContentLoaded', () => {
 											showLoaderOnConfirm: true,
 											confirmButtonText: 'Я передумал, разрешаю!',
 											cancelButtonText: 'Да',
+											onOpen: (toast) => {
+												toast.querySelector('.swal2-confirm').blur();
+												toast.querySelector('.swal2-close').blur();
+											},
 										}).then((result) => {
 											if (result.value) accessFavorites();
-											else show($quizPage);
+											else setTimeout(() => { show($quizPage); }, 1000); // ёбанный баг на айфоне!
 										});
 									}
 									else showVkError(error);
@@ -211,6 +222,10 @@ const showVkError = (error) => {
 			confirmButton: 'btn btn-success btn-lg',
 		},
 		confirmButtonText: 'Понятно...',
+		onOpen: (toast) => {
+			toast.querySelector('.swal2-confirm').blur();
+			toast.querySelector('.swal2-close').blur();
+		},
 	};
 	if (error.error_data.error_code === 4) {
 		swalParams.title = 'Хм... Нужен доступ!';
@@ -230,4 +245,10 @@ const thanksMessage = () => {
 		timer: 4000,
 		timerProgressBar: true,
 	});
+};
+
+const trigger = (element, event) => {
+	const evt = document.createEvent('HTMLEvents');
+	evt.initEvent(event, true, true);
+	return ! element.dispatchEvent(evt);
 };
