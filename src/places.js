@@ -1,3 +1,5 @@
+const throttlingTimer = 300; // 2000
+
 let placesLoaded = false;
 let isFavorites = false;
 let requestTimeoutStarted = false;
@@ -50,14 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
 					url: window.location.href,
 				});
 				placesLoaded = true;
-				setTimeout(() => { placesLoaded = false; }, 2000);
+				setTimeout(() => { placesLoaded = false; }, throttlingTimer);
 			}
 			else if ( ! requestTimeoutStarted) {
 				requestTimeoutStarted = true;
 				setTimeout(() => {
 					requestTimeoutStarted = false;
 					requestTimeout();
-				}, 2000);
+				}, throttlingTimer);
 			}
 		};
 		requestTimeout();
@@ -101,8 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				isFavorites = false;
 				$placesCards.classList.remove('favorites');
 				$cardsArea.style.marginTop = null;
-				// initQuiz();
-				$questionsProgress.style.width = '0%';
+				initQuiz();
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			}
 		});
@@ -153,14 +154,14 @@ document.addEventListener('DOMContentLoaded', () => {
 				getPlaces();
 			}
 			placesLoaded = true;
-			setTimeout(() => { placesLoaded = false; }, 2000);
+			setTimeout(() => { placesLoaded = false; }, throttlingTimer);
 		}
 		else if ( ! requestTimeoutStarted) {
 			requestTimeoutStarted = true;
 			setTimeout(() => {
 				requestTimeoutStarted = false;
 				trigger($selectMonth, 'change');
-			}, 2000);
+			}, throttlingTimer);
 		}
 	});
 
@@ -191,14 +192,14 @@ document.addEventListener('DOMContentLoaded', () => {
 						getPlaces();
 					}
 					placesLoaded = true;
-					setTimeout(() => { placesLoaded = false; }, 2000);
+					setTimeout(() => { placesLoaded = false; }, throttlingTimer);
 				}
 				else if ( ! requestTimeoutStarted) {
 					requestTimeoutStarted = true;
 					setTimeout(() => {
 						requestTimeoutStarted = false;
 						requestTimeout();
-					}, 2000);
+					}, throttlingTimer);
 				}
 			};
 			requestTimeout();
@@ -217,14 +218,14 @@ document.addEventListener('DOMContentLoaded', () => {
 						getPlaces();
 					}
 					placesLoaded = true;
-					setTimeout(() => { placesLoaded = false; }, 2000);
+					setTimeout(() => { placesLoaded = false; }, throttlingTimer);
 				}
 				else if ( ! requestTimeoutStarted) {
 					requestTimeoutStarted = true;
 					setTimeout(() => {
 						requestTimeoutStarted = false;
 						requestTimeout();
-					}, 2000);
+					}, throttlingTimer);
 				}
 			};
 			requestTimeout();
@@ -242,14 +243,14 @@ document.addEventListener('DOMContentLoaded', () => {
 						getPlaces();
 					}
 					placesLoaded = true;
-					setTimeout(() => { placesLoaded = false; }, 2000);
+					setTimeout(() => { placesLoaded = false; }, throttlingTimer);
 				}
 				else if ( ! requestTimeoutStarted) {
 					requestTimeoutStarted = true;
 					setTimeout(() => {
 						requestTimeoutStarted = false;
 						requestTimeout();
-					}, 2000);
+					}, throttlingTimer);
 				}
 			};
 			requestTimeout();
@@ -266,14 +267,14 @@ document.addEventListener('DOMContentLoaded', () => {
 						getPlaces();
 					}
 					placesLoaded = true;
-					setTimeout(() => { placesLoaded = false; }, 2000);
+					setTimeout(() => { placesLoaded = false; }, throttlingTimer);
 				}
 				else if ( ! requestTimeoutStarted) {
 					requestTimeoutStarted = true;
 					setTimeout(() => {
 						requestTimeoutStarted = false;
 						requestTimeout();
-					}, 2000);
+					}, throttlingTimer);
 				}
 			};
 			requestTimeout();
@@ -426,7 +427,7 @@ const lightgalleryOptions = {
 	dynamicEl: [],
 };
 
-const showVkImages = (images) => {
+const showImages = (images) => {
 	if (platformId === 'ios' || platformId === 'android') {
 		vkBridge.send('VKWebAppShowImages', {
 			images: images,
@@ -535,7 +536,7 @@ const renderQuizList = (response) => {
 		const $placeShareBtn = $newPlaceCard.querySelector('.place-share');
 		$placeShareBtn.addEventListener('click', () => {
 			vkBridge.send('VKWebAppShowWallPostBox', {
-				message: 'Мне понравилось и я советую приложение Trip Season Map!\nvk.com/app7535937\n#tripseasonmap',
+				message: 'Мне нравится, и я советую приложение Trip Season Map!\nvk.com/app7535937\n#tripseasonmap',
 				attachments: `photo${place.vk_share_ru},https://vk.com/app7535937`,
 				copyright: 'https://vk.com/app7535937',
 				services: 'facebook,twitter',
@@ -554,7 +555,7 @@ const renderQuizList = (response) => {
 				e.preventDefault();
 				localStorage.video = 1;
 				Swal.fire({
-					html: 'Вы будете перенаправлены на YouTube.<br>После просмотра видео, не забудьте вернуться и посмотреть другие места!',
+					html: 'Вы будете перенаправлены на YouTube.<br>После просмотра видео не забудьте вернуться и посмотреть другие места!',
 					confirmButtonText: 'Конечно!',
 					icon: 'warning',
 					customClass: {
@@ -572,8 +573,8 @@ const renderQuizList = (response) => {
 		const $photosBtn = $newPlaceCard.querySelector('.photos');
 		$photosBtn.addEventListener('click', () => {
 			// place.vk_photos = 'https://pp.userapi.com/c639229/v639229113/31b31/KLVUrSZwAM4.jpg;https://pp.userapi.com/c639229/v639229113/31b94/mWQwkgDjav0.jpg;https://pp.userapi.com/c639229/v639229113/31b3a/Lw2it6bdISc.jpg';
-			const vkImagesArr = place.vk_photos.split(';');
-			showVkImages(vkImagesArr);
+			const imagesArr = place.vk_photos.split(';');
+			showImages(imagesArr);
 		});
 
 		$placesCards.appendChild($newPlaceCard);
@@ -624,14 +625,14 @@ const getPlaces = () => {
 				url: window.location.href,
 			});
 			placesLoaded = true;
-			setTimeout(() => { placesLoaded = false; }, 2000);
+			setTimeout(() => { placesLoaded = false; }, throttlingTimer);
 		}
 		else if ( ! requestTimeoutStarted) {
 			requestTimeoutStarted = true;
 			setTimeout(() => {
 				requestTimeoutStarted = false;
 				requestTimeout();
-			}, 2000);
+			}, throttlingTimer);
 		}
 	};
 	requestTimeout();

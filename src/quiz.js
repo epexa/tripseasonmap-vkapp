@@ -1,10 +1,11 @@
-/* const initQuiz = () => {
+const initQuiz = () => {
 	$questionsProgress.style.width = '0%';
 	const handleAnimationEnd = () => {
 		$quizMonthArea.removeEventListener('animationend', handleAnimationEnd);
+		$questionsProgress.style.width = '33%';
 	};
 	$quizMonthArea.addEventListener('animationend', handleAnimationEnd);
-}; */
+};
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -12,8 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		'#question1-first',
 		'#question1-second',
 		'#question1-third',
-		'#questions-progress',
-		'#quiz-month-area',
 		'#question2',
 		'#question2-first',
 		'#question2-second',
@@ -30,8 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		'#cards-area',
 	);
 
-	// initQuiz();
-	$questionsProgress.style.width = '0%';
+	initQuiz();
 
 	$quizMonthArea.querySelectorAll('.quiz-month').forEach(($month) => {
 		$month.addEventListener('click', () => {
@@ -78,7 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 			setTimeout(() => { $month.blur(); }, 3000); // ёбанный айфон!
 
-			$questionsProgress.style.width = '33%';
+			const handleAnimationEnd5 = () => {
+				$question2.removeEventListener('animationend', handleAnimationEnd5);
+				$questionsProgress.style.width = '66%';
+			};
+			$question2.addEventListener('animationend', handleAnimationEnd5);
 		});
 	});
 
@@ -141,7 +143,13 @@ document.addEventListener('DOMContentLoaded', () => {
 				};
 				$question2.addEventListener('animationend', handleAnimationEnd4);
 
-				$questionsProgress.style.width = '66%';
+				const handleAnimationEnd = () => {
+					$question31.removeEventListener('animationend', handleAnimationEnd);
+					$question32.removeEventListener('animationend', handleAnimationEnd);
+					$questionsProgress.style.width = '100%';
+				};
+				$question31.addEventListener('animationend', handleAnimationEnd);
+				$question32.addEventListener('animationend', handleAnimationEnd);
 			}
 			if (answerId >= 3 && answerId <= 6) {
 				/* $question31.classList.add('animate__fadeOut');
@@ -175,8 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
 					$thirdFilter1.classList.remove('active');
 					$thirdFilter2.classList.add('active');
 				}
-
-				$questionsProgress.style.width = '100%';
 
 				currentScreen = 'main';
 				getPlaces();

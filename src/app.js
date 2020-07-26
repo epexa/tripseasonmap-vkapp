@@ -57,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	initHtmlElements(
 		'#welcome',
 		'#quiz-page',
+		'#questions-progress',
+		'#quiz-month-area',
 		'#quiz-list-btn',
 		'#favorites-btn',
 		'#select-month',
@@ -100,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				html: '<h1>Ответьте на <b>три</b> вопроса и сформируйте свой персональный список мест для путешествия!</h1>',
 				confirmButtonText: 'Давайте начнём!',
 			}).then(() => {
+				initQuiz();
 				setTimeout(() => { show($quizPage); }, 1000); // ёбанный баг на айфоне!
 			});
 		});
@@ -116,6 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
 					actions: 'btn-group',
 					confirmButton: 'btn btn-success btn-lg',
 					cancelButton: 'btn btn-outline-danger btn-lg',
+				},
+				showClass: {
 					popup: 'animate__animated animate__fadeIn', // animate__zoomIn
 				},
 				showCloseButton: true,
@@ -139,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 										favorites: 1,
 									});
 									thanksMessage();
+									initQuiz();
 									show($quizPage);
 								})
 								.catch((error) => {
@@ -164,7 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
 											},
 										}).then((result) => {
 											if (result.value) accessFavorites();
-											else setTimeout(() => { show($quizPage); }, 1000); // ёбанный баг на айфоне!
+											else {
+												initQuiz();
+												setTimeout(() => { show($quizPage); }, 1000); // ёбанный баг на айфоне!
+											}
 										});
 									}
 									else showVkError(error);
@@ -172,10 +181,16 @@ document.addEventListener('DOMContentLoaded', () => {
 					};
 					accessFavorites();
 				}
-				else setTimeout(() => { show($quizPage); }, 1000); // ёбанный баг на айфоне!
+				else {
+					initQuiz();
+					setTimeout(() => { show($quizPage); }, 1000); // ёбанный баг на айфоне!
+				}
 			});
 		}
-		else show($quizPage);
+		else {
+			initQuiz();
+			show($quizPage);
+		}
 	}
 
 	// TODO: find another fix ios viewport
@@ -206,6 +221,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	};
 	fixIosViewport();
 	/* end fix ios viewport */
+
+	/* const observer = new ResizeObserver((entries) => {
+		for (const entry of entries) {
+			console.log('height', entry.contentRect.height);
+			vkBridge.send('VKWebAppResizeWindow', { width: 630, height: entry.contentRect.height });
+		}
+	});
+	observer.observe(document.querySelector('body')); */
 
 });
 

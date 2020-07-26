@@ -46,8 +46,12 @@ const loadingHide = () => {
 
 const getItems = (method, callback, data = {}) => {
 	loadingShow();
+	const loadingHideTimerId = setTimeout(() => {
+		loadingHide();
+	}, 5000);
 	socket.emit(method, data, (response) => {
 		loadingHide();
+		clearTimeout(loadingHideTimerId);
 		console.log(response);
 		callback(response);
 	});
