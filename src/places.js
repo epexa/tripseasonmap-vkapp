@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				if (currentScreen === 'main') {
 					window.removeEventListener('scroll', handleScroll);
 					Swal.fire({
-						html: 'Мы постоянно обновляем приложение и добавляем новые места! Разрешите уведомления и мы будем вам сообщать об обновлениях и о наших новостях раз в неделю!',
+						html: 'Мы постоянно обновляем приложение и добавляем новые места! Разрешите уведомления, и мы будем вам сообщать об обновлениях и о наших новостях раз в неделю!',
 						confirmButtonText: 'Конечно!',
 						icon: 'warning',
 						customClass: {
@@ -536,9 +536,9 @@ const renderQuizList = (response) => {
 		const $placeShareBtn = $newPlaceCard.querySelector('.place-share');
 		$placeShareBtn.addEventListener('click', () => {
 			vkBridge.send('VKWebAppShowWallPostBox', {
-				message: 'Мне нравится, и я советую приложение Trip Season Map!\nvk.com/app7535937\n#tripseasonmap',
-				attachments: `photo${place.vk_share_ru},https://vk.com/app7535937`,
-				copyright: 'https://vk.com/app7535937',
+				message: 'Мне нравится, и я советую приложение Trip Season Map!\nvk.com/tripseason\n#tripseasonmap',
+				attachments: `photo${place.vk_share_ru},https://vk.com/tripseason`,
+				copyright: 'https://vk.com/tripseason',
 				services: 'facebook,twitter',
 				/* lat: 23,
 				long: 42, */
@@ -583,11 +583,7 @@ const renderQuizList = (response) => {
 		// TODO: find another fix for max-height
 		/* start fix max-height */
 		setTimeout(() => {
-			const $childrens = $newPlaceCard.querySelector('.card-img-overlay').children;
-			let totalHeight = 0;
-			for (let i = 0; i < $childrens.length; i++)
-				totalHeight += $childrens[i].offsetHeight;
-			$newPlaceCard.querySelector('.card-img-top').style.height = `${totalHeight + 40}px`;
+			cardHeightResize($newPlaceCard);
 		}, 1000);
 		/* end fix max-height */
 
@@ -603,6 +599,20 @@ const renderQuizList = (response) => {
 		stack.createCard($newStackPlaceCard); */
 
 	};
+
+	setTimeout(() => {
+		$placesCards.querySelectorAll('.card').forEach(($card) => {
+			cardHeightResize($card);
+		});
+	}, 2000);
+};
+
+const cardHeightResize = ($newPlaceCard) => {
+	const $childrens = $newPlaceCard.querySelector('.card-img-overlay').children;
+	let totalHeight = 0;
+	for (let i = 0; i < $childrens.length; i++)
+		totalHeight += $childrens[i].offsetHeight;
+	$newPlaceCard.querySelector('.card-img-top').style.height = `${totalHeight + 40}px`;
 };
 
 const getPlaces = () => {
@@ -641,6 +651,10 @@ const getPlaces = () => {
 let swalQuote;
 
 const showQuote = () => {
+	if ( ! swalQuote && Swal.isVisible()) {
+		setTimeout(() => { showQuote(); }, 5000);
+		return;
+	}
 	const timer = 20000;
 	if ( ! localStorage.quote) localStorage.quote = 0;
 	const text = quotes[localStorage.quote];
