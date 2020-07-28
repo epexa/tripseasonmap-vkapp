@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				// $question2.classList.remove('animate__fadeOut');
 				// $question31.classList.remove('animate__fadeOut');
 				// $question32.classList.remove('animate__fadeOut');
-				hide($resultScreen, $cardsArea, $question31First, $question31Second, $question31Third, $question32First, $question32Second, $question32Third, $question2, $question31, $question32, $quizListBtn); // $stackCardsArea
+				hide($resultScreen, $noPlacesResults, $noFavoritesResults, $cardsArea, $question31First, $question31Second, $question31Third, $question32First, $question32Second, $question32Third, $question2, $question31, $question32, $quizListBtn); // $stackCardsArea
 				show($question1First, $question1Second, $question1Third, $quizMonthArea, $favoritesBtn, $filterForm);
 				setTimeout(() => { show($quizPage); }, 1000); // ёбанный баг на айфоне!
 				isFavorites = false;
