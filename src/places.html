@@ -10,42 +10,50 @@
 	</div>
 
 	<form class="container-fluid animate__animated animate__fadeInDown" id="filter-form">
-		<div class="form-group mt-2">
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<button class="btn btn-outline-success" type="button" id="prev-month" disabled><i class="icon icon-arrow-left"></i></button>
+		<div class="card-body bg-light mb-2 row d-none" id="places-count-area">
+			<p class="h5">Мы подобрали для вас <b><output id="places-count">..</output> мест.</b></p>
+			<p class="h5 mb-0">Ниже вы можете ознакомиться с подробностями каждого варианта.</p>
+		</div>
+		<div class="animate__animated animate__faster d-none" id="filter-form-area">
+			<div class="form-group mt-2">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<button class="btn btn-outline-success" type="button" id="prev-month" disabled><i class="icon icon-arrow-left"></i></button>
+					</div>
+					<select class="form-control custom-select" id="select-month" name="month">
+						<option value="1">Январь</option>
+						<option value="2">Февраль</option>
+						<option value="3">Март</option>
+						<option value="4">Апрель</option>
+						<option value="5">Май</option>
+						<option value="6">Июнь</option>
+						<option value="7">Июль</option>
+						<option value="8">Август</option>
+						<option value="9">Сентябрь</option>
+						<option value="10">Октябрь</option>
+						<option value="11">Ноябрь</option>
+						<option value="12">Декабрь</option>
+					</select>
+					<div class="input-group-append">
+						<button class="btn btn-outline-success" type="button" id="next-month"><i class="icon icon-arrow-right"></i></button>
+					</div>
 				</div>
-				<select class="form-control custom-select" id="select-month" name="month">
-					<option value="1">Январь</option>
-					<option value="2">Февраль</option>
-					<option value="3">Март</option>
-					<option value="4">Апрель</option>
-					<option value="5">Май</option>
-					<option value="6">Июнь</option>
-					<option value="7">Июль</option>
-					<option value="8">Август</option>
-					<option value="9">Сентябрь</option>
-					<option value="10">Октябрь</option>
-					<option value="11">Ноябрь</option>
-					<option value="12">Декабрь</option>
-				</select>
-				<div class="input-group-append">
-					<button class="btn btn-outline-success" type="button" id="next-month"><i class="icon icon-arrow-right"></i></button>
+			</div>
+			<div class="form-group mt-2">
+				<div class="btn-group btn-block" role="group">
+					<button type="button" class="btn btn-outline-success active" id="second-filter1">Природа</button>
+					<button type="button" class="btn btn-outline-success" id="second-filter2">Город</button>
 				</div>
 			</div>
-		</div>
-		<div class="form-group mt-2">
-			<div class="btn-group btn-block" role="group">
-				<button type="button" class="btn btn-outline-success active" id="second-filter1">Природа</button>
-				<button type="button" class="btn btn-outline-success" id="second-filter2">Город</button>
+			<div class="form-group mt-2">
+				<div class="btn-group btn-block" role="group">
+					<button type="button" class="btn btn-outline-success" id="third-filter1">Горы и водопады</button>
+					<button type="button" class="btn btn-outline-success active" id="third-filter2">Океан и море</button>
+				</div>
 			</div>
+			<button type="button" class="btn btn-outline-warning btn-block" id="hide-filter">Скрыть фильтр</button>
 		</div>
-		<div class="form-group mt-2">
-			<div class="btn-group btn-block" role="group">
-				<button type="button" class="btn btn-outline-success" id="third-filter1">Горы и водопады</button>
-				<button type="button" class="btn btn-outline-success active" id="third-filter2">Океан и море</button>
-			</div>
-		</div>
+		<button type="button" class="btn btn-outline-success btn-block" id="show-filter">Показать фильтр</button>
 	</form>
 
 	<!--

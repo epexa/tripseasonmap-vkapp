@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	initHtmlElements(
 		'#lightgallery',
 		'#place-card-template',
+		'#places-count-area',
+		'#places-count',
 		'#places-cards',
 		'#stack-places-cards',
 		'#stack-place-card-template',
@@ -16,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		'#filter-form',
 		'#no-places-results',
 		'#no-favorites-results',
+		'#filter-form-area',
+		'#hide-filter',
+		'#show-filter',
 	);
 
 	/* const stack = swing.Stack({
@@ -34,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	$favoritesBtn.addEventListener('click', () => {
 		isFavorites = true;
 		currentScreen = 'favorites';
-		hide($favoritesBtn, $noPlacesResults, $filterForm);
+		hide($favoritesBtn, $placesCountArea, $noPlacesResults, $filterForm);
 		show($quizListBtn);
 		$cardsArea.style.marginTop = '65px';
 		$placesCards.innerHTML = '';
@@ -97,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				// $question2.classList.remove('animate__fadeOut');
 				// $question31.classList.remove('animate__fadeOut');
 				// $question32.classList.remove('animate__fadeOut');
-				hide($resultScreen, $noPlacesResults, $noFavoritesResults, $cardsArea, $question31First, $question31Second, $question31Third, $question32First, $question32Second, $question32Third, $question2, $question31, $question32, $quizListBtn); // $stackCardsArea
+				hide($resultScreen, $placesCountArea, $noPlacesResults, $noFavoritesResults, $cardsArea, $question31First, $question31Second, $question31Third, $question32First, $question32Second, $question32Third, $question2, $question31, $question32, $quizListBtn); // $stackCardsArea
 				show($question1First, $question1Second, $question1Third, $quizMonthArea, $favoritesBtn, $filterForm);
 				setTimeout(() => { show($quizPage); }, 1000); // ёбанный баг на айфоне!
 				isFavorites = false;
@@ -279,6 +284,27 @@ document.addEventListener('DOMContentLoaded', () => {
 			};
 			requestTimeout();
 		}
+	});
+
+	$showFilter.addEventListener('click', () => {
+		$filterFormArea.classList.add('animate__backInDown');
+		const handleAnimationEnd = () => {
+			$filterFormArea.removeEventListener('animationend', handleAnimationEnd);
+			$filterFormArea.classList.remove('animate__backInDown');
+		};
+		$filterFormArea.addEventListener('animationend', handleAnimationEnd);
+		hide($showFilter);
+		show($filterFormArea);
+	});
+	$hideFilter.addEventListener('click', () => {
+		$filterFormArea.classList.add('animate__backOutUp');
+		const handleAnimationEnd = () => {
+			$filterFormArea.removeEventListener('animationend', handleAnimationEnd);
+			$filterFormArea.classList.remove('animate__backOutUp');
+			hide($filterFormArea);
+			show($showFilter);
+		};
+		$filterFormArea.addEventListener('animationend', handleAnimationEnd);
 	});
 
 	if (urlParams.get('vk_are_notifications_enabled') === '0' && ! localStorage.notificationsAsk) {
@@ -625,9 +651,14 @@ const getPlaces = () => {
 				// console.log(response);
 				if (response.items && response.items.length) {
 					hide($noPlacesResults);
+					$placesCount.innerText = response.items.length + 1;
+					show($placesCountArea);
 					renderQuizList(response.items);
 				}
-				else show($noPlacesResults);
+				else {
+					hide($placesCountArea);
+					show($noPlacesResults);
+				}
 			}, {
 				month: monthValue,
 				question2: question2,
